@@ -79,8 +79,8 @@ class Machine:
             self.dispatch(opcode)
 
     def dispatch(self, op):
-        if op in dispatch_map:
-            dispatch_map[op]()
+        if op in self.dispatch_map:
+            self.dispatch_map[op]()
         elif isinstance(op, int):
             self.push(op)  # push numbers on stack
         elif isinstance(op, str) and op[0] == op[-1] == '"':
@@ -136,95 +136,88 @@ class Machine:
         self.DX = self.data_stack.pop()
 
     def put(self):
+        pass
 
     def get(self):
         self.DX = input()
 
     def inc(self):
-        CX += 1
-        self.push(CX)
+        self.CX += 1
+        self.push(self.CX)
 
     def dec(self):
-        CX -= 1
-        self.push(CX)
+        self.CX -= 1
+        self.push(self.CX)
 
     def add(self):
-        CX += DX
-        self.push(CX)
+        self.CX += self.DX
+        self.push(self.CX)
 
     def minus(self):
-        CX -= DX
-        self.push(CX)
+        self.CX -= self.DX
+        self.push(self.CX)
 
     def zero(self):
-        CX = 0
-        self.push(CX)
+        self.CX = 0
+        self.push(self.CX)
 
     def not0(self):
-        binary = bin(CX)[2:]
-        binary = binary.charAt(0) + (binary.charAt(1) & f)  # 32 bit representation
+        binary = hex(self.CX)[2:]
+        binary = binary.charAt(0) + (binary.charAt(1) & hex.f)  # 32 bit representation
         self.push(binary)
 
     def shl(self):
-        binary = bin(CX)[2:]
-        binary = binary << 2
+        binary = hex(self.CX)[2:]
+        binary = binary << 1
         self.push(binary)
 
     def ifz(self):
-        if (CX == 0):
+        if (self.CX == 0):
             pass
         else:
-            jmp(instruction_pointer + 2)  # fix!!!!!
+            self.instruction_pointer += 1
 
     def iffl(self):
-        if (flag == 1):
+        if (self.flag == 1):
             pass
         else:
-            jmp(instruction_pointer + 2)  # fix!!!!!
+            self.instruction_pointer += 1
 
     def jmp(self):  # read next four noop instructions: Assume Template
-        template = code[2 * instruction_pointer + 1: 2 * instruction_pointer + 10]  # Trying to find template
-        complement = complement = compl(template)
-        for i in range(len(code))
-            if complement == code[i:i + 9]:
-                instruction_pointer = (i + 8) / 2 + 1
-        break
+        template = self.code[2 * self.instruction_pointer + 1: 2 * self.instruction_pointer + 10]  # Trying to find template
+        self.instruction_pointer = self.compl(template, 1)
+
 
     def jmpb(self):  # Read Last four noop instructions: Assume Template
-        template = code[2 * instruction_pointer + 1: 2 * instruction_pointer + 10]  # Trying to find template
-        complement = compl(template)
-        for i in range(len(code))
-            if complememnt == code i:i + 9
+        template = self.code[2 * self.instruction_pointer + 1: 2 * self.instruction_pointer + 10]  # Trying to find template
+        self.instruction_pointer = self.compl(template, 0)
 
-            def __compl(self, template):
 
-    complement = ""
-    for i in range(len(template)):
-        if i % 2 != 0:
-            if template.charAt(i) == 0:
-                complement + "1"
-            else
+    def compl(self, template, dir):
+        complement = ""
+        for i in range(len(template)):
+            if i % 2 != 0:
+                if template.charAt(i) == 0:
+                    complement + "1"
+                else:
+                    complement + "0"
+            else:
                 complement + "0"
-        else
-            complement + "0"
-    return complement
-
+        for i in range(len(self.code)):
+            if complement == self.code[i:i + 9]:
+                if dir == 1:
+                    self.instruction_pointer = (i + 8) / 2 + 1
+                elif dir == 0:
+                    self.instruction_pointer = i / 2
+                else:
+                    NotImplementedError("BAD")
+        return self.instruction_pointer
+    def test(self, template):
+        pass
 
 def call(self):
+    self.push(self.instruction_pointer + 1)
     pass
-
-
-def mod(self):
-    last = self.pop()
-    self.push(self.pop() % last)
-
-
-def read(self):
-    self.push(get_input())
-
-
-def eq(self):
-    self.push(self.pop() == self.pop())
 
 
 def if_stmt(self):

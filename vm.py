@@ -213,11 +213,30 @@ class Machine:
                     NotImplementedError("BAD")
         return self.instruction_pointer
     def test(self, template):
+        for i in range(len(template)):
+            if i is not 0 or 1:
+                return False
+            else:
+                return True
+
+    def call(self):
+        self.push(self.instruction_pointer + 1)
+        template = self.code[2 * self.instruction_pointer + 1: 2 * self.instruction_pointer + 10]
+        flag = self.test(template)
+        if flag:
+            self.jmp()
+
+    def adr(self):
         pass
 
-def call(self):
-    self.push(self.instruction_pointer + 1)
-    pass
+    def adrb(self):
+        pass
+    def adrf(self):
+        pass
+    def mal(self):
+        pass
+    def divide(self):
+        pass
 
 
 def if_stmt(self):
@@ -225,11 +244,3 @@ def if_stmt(self):
     true_clause = self.pop()
     test = self.pop()
     self.push(true_clause if test else false_clause)
-
-
-def jmp(self):
-    addr = self.pop()
-    if isinstance(addr, int) and 0 <= addr < len(self.code):
-        self.instruction_pointer = addr
-    else:
-        raise RuntimeError("JMP address must be a valid integer.")

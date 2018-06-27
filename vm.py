@@ -1,24 +1,10 @@
-
-
 """
 A simple VM interpreter.
 Code from the post at http://csl.name/post/vm/
 This version should work on both Python 2 and 3.
 """
 
-from __future__ import *
 from collections import deque
-from io import *
-import sys
-import tokenize
-
-
-def get_input(*args, **kw):
-    """Read a string from standard input."""
-    if sys.version[0] == "2":
-        return input(*args, **kw)
-    else:
-        return input(*args, **kw)
 
 
 class Stack(deque):
@@ -30,6 +16,7 @@ class Stack(deque):
 
 class Machine:
     def __init__(self, code):
+        self.RAM = [60000]
         self.data_stack = Stack()
         self.return_stack = Stack()
         self.instruction_pointer = 0
@@ -66,7 +53,7 @@ class Machine:
             "14": self.NOT,
             "15": self.shift,
             "16": self.ifz,
-            "17": self.iffl, # if flag == 1
+            "17": self.iffl,  # if flag == 1
             "18": self.jmp,
             "19": self.jmpb,
             "1a": self.call,
@@ -95,13 +82,63 @@ class Machine:
         if op in dispatch_map:
             dispatch_map[op]()
         elif isinstance(op, int):
-            self.push(op) # push numbers on stack
-        elif isinstance(op, str) and op[0]==op[-1]=='"':
-            self.push(op[1:-1]) # push quoted strings on stack
+            self.push(op)  # push numbers on stack
+        elif isinstance(op, str) and op[0] == op[-1] == '"':
+            self.push(op[1:-1])  # push quoted strings on stack
         else:
             raise RuntimeError("Unknown opcode: '%s'" % op)
 
     # OPERATIONS FOLLOW:
+    def nop0(self):
+        pass
+
+    def nop1(self):
+        pass
+
+    def movdi(self):
+        self.ram[self.AX + self.BX] = self.BX
+        self.BX = None
+
+    def movid(self):
+        self.AX = self.ram[self.BX + self.CX]
+        self.ram[self.BX + self.CX] = None
+
+    def movii(self):
+        self.ram[self.AX + self.CX] = self.ram[self.BX + self.CX]
+        self.ram[self.BX + self.CX] = None
+
+    def pushax(self):
+        self.data_stack.push(self.AX)
+        self.AX = None
+
+    def pushbx(self):
+        self.data_stack.push(self.BX)
+        self.BX = None
+
+    def pushcx(self):
+        self.data_stack.push(self.CX)
+        self.CX = None
+
+    def pushdx(self):
+        self.data_stack.push(self.DX)
+        self.DX = None
+
+    def popax(self):
+        self.AX = self.data_stack.pop()
+
+    def popbx(self):
+        self.BX = self.data_stack.pop()
+
+    def popcx(self):
+        self.CX = self.data_stack.pop()
+
+    def popdx(self):
+        self.DX = self.data_stack.pop()
+
+    def put(self):
+
+    def get(self):
+        self.DX = input()
 
     def inc(self):
         CX += 1
@@ -129,128 +166,77 @@ class Machine:
         self.push(binary)
 
     def shl(self):
-        pass
+        binary = bin(CX)[2:]
+        binary = binary << 2
+        self.push(binary)
 
     def ifz(self):
-        if(CX == 0):
+        if (CX == 0):
             pass
         else:
-            jmp(instruction_pointer + 2)
+            jmp(instruction_pointer + 2)  # fix!!!!!
 
     def iffl(self):
-        if(flag == 1):
+        if (flag == 1):
             pass
         else:
-            jmp(instruction_pointer + 2)
+            jmp(instruction_pointer + 2)  # fix!!!!!
 
-    def jmp(self):
-        addr = instruction_pointer + 2
-        if isinstance(addr, int) and 0 <= addr < len(self.code):
-            self.instruction_pointer = addr
-        else:
-            raise RuntimeError("JMP address must be a valid integer.")
-    def jmpb(self):
-        pass
+    def jmp(self):  # read next four noop instructions: Assume Template
+        template = code[2 * instruction_pointer + 1: 2 * instruction_pointer + 10]  # Trying to find template
+        complement = complement = compl(template)
+        for i in range(len(code))
+            if complement == code[i:i + 9]:
+                instruction_pointer = (i + 8) / 2 + 1
+        break
 
-    def call(self):
-        pass
-    def mod(self):
-        last = self.pop()
-        self.push(self.pop() % last)
+    def jmpb(self):  # Read Last four noop instructions: Assume Template
+        template = code[2 * instruction_pointer + 1: 2 * instruction_pointer + 10]  # Trying to find template
+        complement = compl(template)
+        for i in range(len(code))
+            if complememnt == code i:i + 9
 
-    def read(self):
-        self.push(get_input())
+            def __compl(self, template):
 
-    def eq(self):
-        self.push(self.pop() == self.pop())
-
-    def if_stmt(self):
-        false_clause = self.pop()
-        true_clause = self.pop()
-        test = self.pop()
-        self.push(true_clause if test else false_clause)
-
-    def jmp(self):
-        addr = self.pop()
-        if isinstance(addr, int) and 0 <= addr < len(self.code):
-            self.instruction_pointer = addr
-        else:
-            raise RuntimeError("JMP address must be a valid integer.")
+    complement = ""
+    for i in range(len(template)):
+        if i % 2 != 0:
+            if template.charAt(i) == 0:
+                complement + "1"
+            else
+                complement + "0"
+        else
+            complement + "0"
+    return complement
 
 
+def call(self):
+    pass
 
-def parse(text):
-    # Note that the tokenizer module is intended for parsing Python source
-    # code, so if you're going to expand on the parser, you may have to use
-    # another tokenizer.
 
-    if sys.version[0] == "2":
-        stream = StringIO(unicode(text))
+def mod(self):
+    last = self.pop()
+    self.push(self.pop() % last)
+
+
+def read(self):
+    self.push(get_input())
+
+
+def eq(self):
+    self.push(self.pop() == self.pop())
+
+
+def if_stmt(self):
+    false_clause = self.pop()
+    true_clause = self.pop()
+    test = self.pop()
+    self.push(true_clause if test else false_clause)
+
+
+def jmp(self):
+    addr = self.pop()
+    if isinstance(addr, int) and 0 <= addr < len(self.code):
+        self.instruction_pointer = addr
     else:
-        stream = StringIO(text)
-
-    tokens = tokenize.generate_tokens(stream.readline)
-
-    for toknum, tokval, _, _, _ in tokens:
-        if toknum == tokenize.NUMBER:
-            yield int(tokval)
-        elif toknum in [tokenize.OP, tokenize.STRING, tokenize.NAME]:
-            yield tokval
-        elif toknum == tokenize.ENDMARKER:
-            break
-        else:
-            raise RuntimeError("Unknown token %s: '%s'" %
-                    (tokenize.tok_name[toknum], tokval))
-
-
-def repl():
-    print('Hit CTRL+D or type "exit" to quit.')
-
-    while True:
-        try:
-            source = get_input("> ")
-            code = list(parse(source))
-            code = constant_fold(code)
-            Machine(code).run()
-        except (RuntimeError, IndexError) as e:
-            print("IndexError: %s" % e)
-        except KeyboardInterrupt:
-            print("\nKeyboardInterrupt")
-
-def examples():
-    print("** Program 1: Runs the code for `print((2+3)*4)`")
-    Machine([2, 3, "+", 4, "*", "println"]).run()
-
-    print("\n** Program 2: Ask for numbers, computes sum and product.")
-    Machine([
-        '"Enter a number: "', "print", "read", "cast_int",
-        '"Enter another number: "', "print", "read", "cast_int",
-        "over", "over",
-        '"Their sum is: "', "print", "+", "println",
-        '"Their product is: "', "print", "*", "println"
-    ]).run()
-
-    print("\n** Program 3: Shows branching and looping (use CTRL+D to exit).")
-    Machine([
-        '"Enter a number: "', "print", "read", "cast_int",
-        '"The number "', "print", "dup", "print", '" is "', "print",
-        2, "%", 0, "==", '"even."', '"odd."', "if", "println",
-        0, "jmp" # loop forever!
-    ]).run()
-
-
-if __name__ == "__main__":
-    try:
-        if len(sys.argv) > 1:
-            cmd = sys.argv[1]
-            if cmd == "repl":
-                repl()
-            elif cmd == "test":
-                test()
-                examples()
-            else:
-                print("Commands: repl, test")
-        else:
-            repl()
-    except EOFError:
-        print("")
+        raise RuntimeError("JMP address must be a valid integer.")

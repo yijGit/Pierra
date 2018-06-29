@@ -164,7 +164,7 @@ class Machine:
 
     def not0(self):
         binary = bin(self.CX)[2:]
-        binary = binary.charAt(0) + (binary.charAt(1) ^)  # 32 bit representation
+        binary = binary.charAt(0) + (binary.charAt(1))  # 32 bit representation
         self.push(binary)
 
     def shl(self):
@@ -249,9 +249,13 @@ class Machine:
         pass
     def mal(self):
         pass
-    def divide(self):
-        pass
+    def divide(self, num_cells):
+        self.instruction_pointer += self.CX
+        daughter = open("creature"+num_cells+".py","wb")
+        daughter.write(bytes("Machine[" + self.code + "]",'UTF-8'))
 
+    def print(self):
+        pass
     def main(self):
         self.get_soup()
         self.life()
@@ -260,6 +264,7 @@ class Machine:
         pass
 
     def time_slice(self, ci):
+        '''
         ce = None
         i = ''
         di, j, size_slice = 0
@@ -270,3 +275,4 @@ class Machine:
             execute(di, ci)
             increment_ip(di,ce)
             system_work()
+        '''

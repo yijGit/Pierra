@@ -168,7 +168,7 @@ class Machine:
         self.push(binary)
 
     def shl(self):
-        binary = hex(self.CX)[2:]
+        binary = bin(self.CX)[2:]
         binary = binary << 1
         self.CX = binary
         self.push(binary)
@@ -265,6 +265,8 @@ class Machine:
         di, j, size_slice = 0
         ce = cells + ci
         for j in range(size_slice):
-            i = self.fetch(ce->c.ip)
+            i = self.fetch(ce->c.instruction_pointer)
             di = decode(i)
-            execute
+            execute(di, ci)
+            increment_ip(di,ce)
+            system_work()

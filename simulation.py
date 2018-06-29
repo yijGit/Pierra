@@ -1,4 +1,3 @@
-RAM = [600000]
 class Queue:
     def __init__(self):
         self.items = []
@@ -14,27 +13,28 @@ class Queue:
 
     def size(self):
         return len(self.items)
-class Circle:
+class Circle(Queue):
     def __init__(self):
-        self.items = []
+        super(Circle, self).__init__(self)
 
-    def isEmpty(self):
-        return self.items == []
 
-   i def enqueue(selfself, item):
-        self.items
+    def rotate(self):
+        val = self.items.pop()
+        self.items.enqueue(val)
+        return val
 
 class Comp:
     def __init__(self):
         reap = Queue()
-        slice = Queue()
+        slice = Circle()
+        RAM = [600000]
 
     def cpu(self):
         pass
     def reaper(self, file):
         self.reap.enqueue(file)
-        if self.reap.size() > (.8 * len(RAM)):
+        if self.reap.size() > (.8 * len(self.RAM)):
             self.reap.dequeue()
 
-    def slicer(self):
-        p
+    def slicer(self, names):
+        self.slice.enqueue(names)

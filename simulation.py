@@ -14,10 +14,20 @@ class Queue:
 
     def size(self):
         return len(self.items)
+class Circle:
+    def __init__(self):
+        self.items = []
+
+    def isEmpty(self):
+        return self.items == []
+
+   i def enqueue(selfself, item):
+        self.items
 
 class Comp:
     def __init__(self):
         reap = Queue()
+        slice = Queue()
 
     def cpu(self):
         pass
@@ -27,3 +37,4 @@ class Comp:
             self.reap.dequeue()
 
     def slicer(self):
+        p

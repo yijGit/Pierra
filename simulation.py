@@ -27,10 +27,8 @@ class Comp:
     def __init__(self):
         reap = Queue()
         slice = Circle()
-        RAM = [600000]
+        RAM = [0] * 600000
 
-    def cpu(self):
-        pass
     def reaper(self, file):
         self.reap.enqueue(file)
         if self.reap.size() > (.8 * len(self.RAM)):
@@ -38,3 +36,13 @@ class Comp:
 
     def slicer(self, names):
         self.slice.enqueue(names)
+
+    class CPU():
+        def __init__(self):
+            pass
+        def fetch(self):
+            pass
+        def decode(self):
+            pass
+        def execute(self):
+            pass

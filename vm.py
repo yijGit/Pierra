@@ -7,29 +7,43 @@ This version should work on both Python 2 and 3.
 from collections import deque
 import sys
 import os
+import random
 
 class Stack(deque):
     push = deque.append
 
     def top(self):
         return self[-1]
+class Queue:
+    def __init__(self):
+        self.items = []
 
+    def isEmpty(self):
+        return self.items == []
+
+    def enqueue(self, item):
+        self.items.insert(0,item)
+
+    def dequeue(self):
+        return self.items.pop()
+
+    def size(self):
+        return len(self.items)
+class Circle(Queue):
+    def __init__(self):
+        super(Circle, self).__init__(self)
+
+
+    def rotate(self):
+        val = self.items.pop()
+        self.items.enqueue(val)
+        return val
 
 class Machine:
     def __init__(self, code):
-        self.RAM = [60000]
-        self.data_stack = Stack()
-        self.return_stack = Stack()
-        self.instruction_pointer = 0
-        self.stack_pointer = 0
-        self.base_pointer = 0
+        self.RAM = [0] * 60000 # soup
+        self.library = {'80aaa': 2} # genotype: index
         self.code = code
-        self.flag = 0
-        self.AX = None
-        self.BX = None
-        self.CX = None
-        self.DX = None
-        self.flag = None
         self.dispatch_map = {
             "00": self.nop0,
             "01": self.nop1,
@@ -37,13 +51,13 @@ class Machine:
             "03": self.movid,
             "04": self.movii,
             "05": self.pushax,
-            "06": self.push,
-            "07": self.pushC,
-            "08": self.pushD,
-            "09": self.popA,
-            "0a": self.popB,
-            "0b": self.popC,
-            "0c": self.popD,
+            "06": self.pushbx,
+            "07": self.pushcx,
+            "08": self.pushdx,
+            "09": self.popax,
+            "0a": self.popbx,
+            "0b": self.popcx,
+            "0c": self.popdx,
             "0d": self.put,
             "0e": self.get,
             "0f": self.inc,
@@ -51,8 +65,8 @@ class Machine:
             "11": self.add,
             "12": self.sub,
             "13": self.zero,
-            "14": self.NOT,
-            "15": self.shift,
+            "14": self.not0,
+            "15": self.shl,
             "16": self.ifz,
             "17": self.iffl,  # if flag == 1
             "18": self.jmp,
@@ -137,24 +151,43 @@ class Machine:
         self.DX = self.data_stack.pop()
 
     def put(self):
-        pass
+        if(self.test()):
+            template = self.temp()
+            for cell in self.soup:
+                cell.get() # genotype
+        else:
+            pass
+
 
     def get(self):
         self.DX = input()
 
     def inc(self):
-        self.CX += 1
+        if random.random < .95:
+            self.CX += 1
+        else:
+            if random.random< .5:
+                self.CX += 0
+            else:
+                self.CX += 2
+
         self.push(self.CX)
 
     def dec(self):
-        self.CX -= 1
+        if random.random < .95:
+            self.CX -= 1
+        else:
+            if random.random < .5:
+                self.CX -= 0
+            else:
+                self.CX -= 2
         self.push(self.CX)
 
     def add(self):
         self.CX += self.DX
         self.push(self.CX)
 
-    def minus(self):
+    def sub(self):
         self.CX -= self.DX
         self.push(self.CX)
 
@@ -186,16 +219,16 @@ class Machine:
             self.instruction_pointer += 1
 
     def jmp(self):  # read next four noop instructions: Assume Template
-        template = self.code[2 * self.instruction_pointer + 2: 2 * self.instruction_pointer + 11]  # Trying to find template
-        if self.test(template):
+        template = self.temp()
+        if self.test():
             self.instruction_pointer = self.compl(template, 1)
         else:
             self.instruction_pointer = self.AX
 
 
     def jmpb(self):  # Read Last four noop instructions: Assume Template
-        template = self.code[2 * self.instruction_pointer + 1: 2 * self.instruction_pointer + 10]  # Trying to find template
-        if self.test(template):
+        template = self.temp()
+        if self.test():
             self.instruction_pointer = self.compl(template, 0)
         else:
             self.instruction_pointer = self.AX
@@ -220,7 +253,8 @@ class Machine:
                 else:
                     NotImplementedError("BAD")
         return self.instruction_pointer
-    def test(self, template):
+    def test(self):
+        template = self.temp()
         for i in range(len(template)):
             if i % 2 != 0:
                 if i is not 0 or 1:
@@ -232,6 +266,9 @@ class Machine:
                     return False
                 else:
                     return True
+    def temp(self):
+        template = self.code[2 * self.instruction_pointer + 2: 2 * self.instruction_pointer + 11]
+        return  template
 
     def call(self):
         self.push(self.instruction_pointer + 1)
@@ -240,7 +277,7 @@ class Machine:
         if flag:
             self.jmp()
 
-    def adr(self):
+    def adr(self, RAM):
         pass
 
     def adrb(self):
@@ -256,23 +293,42 @@ class Machine:
 
     def print(self):
         pass
-    def main(self):
-        self.get_soup()
-        self.life()
-        self.write_soup()
+    def reaper(self, file):
+        self.reap.enqueue(file)
+        if self.reap.size() > (.8 * len(self.RAM)):
+
+            self.reap.dequeue()
+
+    def slicer(self, names):
+        self.slice.enqueue(names)
+
+class CPU:  # computations must be probalistic
+    def __init__(self):
+        ax = 0  # address register
+        bx = 0  # ditto
+        cx = 0  # numeric register
+        dx = 0  # ditto
+        fl = 0  # error conditions
+        sp = 0  # stack pointer
+        st = [0] * 10  # ten-word stack
+        ip = 0  # instruction pointer
+
     def life(self):
-        pass
+        while (instr_exec_c < alive):
+            self.time_slice(this_slice)
+            incr_slice_queue()
+            while(free_mem_current < free_mem_prop * soup_size)
+                reaper()
 
     def time_slice(self, ci):
-        '''
-        ce = None
+        Pcells ce  # pointer to array of cell structures
         i = ''
         di, j, size_slice = 0
         ce = cells + ci
-        for j in range(size_slice):
-            i = self.fetch(ce->c.instruction_pointer)
+        for j in range(len(size_slice)):
+            i = fetch(ce ->c.ip)
             di = decode(i)
             execute(di, ci)
-            increment_ip(di,ce)
+            increment_ip(di, ce)
             system_work()
-        '''
+

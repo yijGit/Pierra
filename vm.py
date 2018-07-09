@@ -14,31 +14,6 @@ class Stack(deque):
 
     def top(self):
         return self[-1]
-class Queue:
-    def __init__(self):
-        self.items = []
-
-    def isEmpty(self):
-        return self.items == []
-
-    def enqueue(self, item):
-        self.items.insert(0,item)
-
-    def dequeue(self):
-        return self.items.pop()
-
-    def size(self):
-        return len(self.items)
-class Circle(Queue):
-    def __init__(self):
-        super(Circle, self).__init__(self)
-
-
-    def rotate(self):
-        val = self.items.pop()
-        self.items.enqueue(val)
-        return val
-
 class Machine:
     def __init__(self, code):
         self.RAM = [0] * 60000 # soup
@@ -293,14 +268,6 @@ class Machine:
 
     def print(self):
         pass
-    def reaper(self, file):
-        self.reap.enqueue(file)
-        if self.reap.size() > (.8 * len(self.RAM)):
-
-            self.reap.dequeue()
-
-    def slicer(self, names):
-        self.slice.enqueue(names)
 
 class CPU:  # computations must be probalistic
     def __init__(self):

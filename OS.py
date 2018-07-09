@@ -13,6 +13,17 @@ class Queue:
     def dequeue(self):
         return self.items.pop()
 
+    def swap(self, i, dir):
+        if dir is 1:
+            bef = self.items.pop(i + 1)
+            self.items.insert(i, bef)
+        elif dir is 0:
+            bef = self.item.pop(i)
+            self.items.insert(i, bef)
+
+    def index(self, element):
+        return self.items.index(element)
+
     def size(self):
         return len(self.items)
 
@@ -58,21 +69,35 @@ class operating_system:
     def isOwned(self, index) -> bool:
         if G_Memory.library[index] == True:
             return True
-        else
+        else:
             return False
 
-    def reaper(self, file):
+    def reapUpdate(self, file):
         self.reap.enqueue(file)
         if self.reap.size() > (.8 * len(G_Memory.RAM)):
             self.reap.dequeue()
             self.slice.dequeue()
 
-    def slicer(self, names):
+    def reapError(self, genotype) -> None:
+        error1 = G_Memory.err_library.get(genotype)
+        i = self.reap.index(genotype)
+        gen2 = self.reap.pop(i + 1)
+        self.reap.insert(i + 2, gen2)
+        error2 = G_Memory.err_library.get(gen2)
+        if error1 > error2:
+            self.reap.swap(genotype)
+
+    def slicer_increase(self, mother, daughter):
         # doles out small slices of CPU time to each creature in the soup .
         # Each creature has is created a CPU
         # daughter is just ahead of mother
         # number of instructions executed must be proportional to the size of the gneome
-        self.slice.enqueue(names)
+        i = self.slice.index(mother)
+        self.slice.insert(i + 1, daughter)
+
+    def slicer_rotate(self):
+
+
 
     def mutation(self):
         if self.read > 60000:

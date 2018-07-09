@@ -255,10 +255,13 @@ class Machine:
 
     def adrb(self):
         pass
+
     def adrf(self):
         pass
+
     def mal(self):
         pass
+
     def divide(self, num_cells):
         self.instruction_pointer += self.CX
         daughter = open("creature"+num_cells+".py","wb")

@@ -6,6 +6,7 @@ class G_Memory:
         self.num_cells = 1
         self.families = {'mother':'daughter'}
         self.total_instructions = 0
+        self.err_library = {'80aaa': 0} # keeps track of errors for each genotype
 
 
     def get(self, offset, value):

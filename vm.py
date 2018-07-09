@@ -16,8 +16,6 @@ class Stack(deque):
         return self[-1]
 class Machine:
     def __init__(self, code):
-        self.RAM = [0] * 60000 # soup
-        self.library = {'80aaa': 2} # genotype: index
         self.code = code
         self.dispatch_map = {
             "00": self.nop0,

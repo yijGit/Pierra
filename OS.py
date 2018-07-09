@@ -34,16 +34,36 @@ class operating_system:
         slice = Circle() # System maintains a circular queue
         read = 0
 
-    def cellularity(self, genotype): # Memory Allocation: As in will give rights to land for a genotype
+    def cellularity(self, genotype) -> None: # Memory Allocation: As in will give rights to land for a genotype
         # Each creature has exclusive write privilege: Mother and Daughter(MAL- memory allocation)
         # size of creature = size of genome (allocated block)
         # Divide: mother loses write privileges;  daughter cell is given its own IP, free allocate second block
+        beg = G_Memory.library[genotype]
+        end = int(genotype[0:2]) + beg + 1
+        for i in range(beg, end):
+            G_Memory.property[i] = True
 
+
+    def insert_Fam(self, mother, daughter) -> None:
+        G_Memory.families[mother] = daughter
+
+
+    def isOwned(self, beg, end) -> bool:
+        for i in range(beg, end):
+            if G_Memory.library[i] == True:
+                return True
+        return False
+
+
+    def isOwned(self, index) -> bool:
+        if G_Memory.library[index] == True:
+            return True
+        else
+            return False
 
     def reaper(self, file):
         self.reap.enqueue(file)
-        if self.reap.size() > (.8 * len(self.RAM)):
-
+        if self.reap.size() > (.8 * len(G_Memory.RAM)):
             self.reap.dequeue()
             self.slice.dequeue()
 

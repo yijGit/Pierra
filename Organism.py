@@ -4,6 +4,7 @@ class Organism:
         self.code = code
         self.CPU = CPU
         self.mother = 'original'
+        self.countdown = 0
 
     def isMother(self) -> bool:
         return True
@@ -11,4 +12,6 @@ class Organism:
         return False
     def geneology(self) -> str:
         return "HALP"
+    def updateCountdown(self, cd):
+        self.countdown = cd
 

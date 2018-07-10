@@ -1,5 +1,6 @@
 import random
 from Memory import G_Memory
+from Organism import Organism
 class Queue:
     def __init__(self):
         self.items = []
@@ -78,7 +79,7 @@ class operating_system:
             self.reap.dequeue()
             self.slice.dequeue()
 
-    def reapError(self, genotype) -> None:
+    def reapError(self, genotype: str) -> None:
         error1 = G_Memory.err_library.get(genotype)
         i = self.reap.index(genotype)
         gen2 = self.reap.pop(i + 1)
@@ -87,17 +88,18 @@ class operating_system:
         if error1 > error2:
             self.reap.swap(genotype)
 
-    def slicer_increase(self, mother, daughter):
+    def slicer_increase(self, mother: Organism, daughter: Organism):
         # doles out small slices of CPU time to each creature in the soup .
         # Each creature has is created a CPU
         # daughter is just ahead of mother
-        # number of instructions executed must be proportional to the size of the gneome
+        # number of instructions executed must be proportional to the size of the genome
         i = self.slice.index(mother)
         self.slice.insert(i + 1, daughter)
 
     def slicer_rotate(self):
-
-
+        execute = slice.rotate(self)  # gives file that is rotating and rotates queue
+        length = int(.25 * int(execute[0:2]))
+        execute.updateCountdown(length) # how to make this specific to each
 
     def mutation(self):
         if self.read > 60000:

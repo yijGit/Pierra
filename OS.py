@@ -41,50 +41,51 @@ class Circle(Queue):
 
 
 class operating_system:
-    def __init__(self):
-        reap = Queue()
-        slice = Circle() # System maintains a circular queue
-        read = 0
+    def __init__(self, mem: G_Memory):
+        self.reap = Queue()
+        self.slice = Circle() # System maintains a circular queue
+        self.read = 0
+        self.soup = mem
 
     def cellularity(self, genotype) -> None: # Memory Allocation: As in will give rights to land for a genotype
         # Each creature has exclusive write privilege: Mother and Daughter(MAL- memory allocation)
         # size of creature = size of genome (allocated block)
         # Divide: mother loses write privileges;  daughter cell is given its own IP, free allocate second block
-        beg = G_Memory.library[genotype]
+        beg = self.soup.library[genotype]
         end = int(genotype[0:2]) + beg + 1
         for i in range(beg, end):
-            G_Memory.property[i] = True
+            self.soup.property[i] = True
 
 
     def insert_Fam(self, mother, daughter) -> None:
-        G_Memory.families[mother] = daughter
+        self.soup.families[mother] = daughter
 
 
     def isOwned(self, beg, end) -> bool:
         for i in range(beg, end):
-            if G_Memory.library[i] == True:
+            if self.soup.library[i] == True:
                 return True
         return False
 
 
     def isOwned(self, index) -> bool:
-        if G_Memory.library[index] == True:
+        if self.soup.library[index] == True:
             return True
         else:
             return False
 
     def reapUpdate(self, file):
         self.reap.enqueue(file)
-        if self.reap.size() > (.8 * len(G_Memory.RAM)):
+        if self.reap.size() > (.8 * len(self.soup.RAM)):
             self.reap.dequeue()
             self.slice.dequeue()
 
     def reapError(self, genotype: str) -> None:
-        error1 = G_Memory.err_library.get(genotype)
+        error1 = self.soup.err_library.get(genotype)
         i = self.reap.index(genotype)
         gen2 = self.reap.pop(i + 1)
         self.reap.insert(i + 2, gen2)
-        error2 = G_Memory.err_library.get(gen2)
+        error2 = self.soup.err_library.get(gen2)
         if error1 > error2:
             self.reap.swap(genotype)
 
@@ -101,13 +102,8 @@ class operating_system:
         length = int(.25 * int(execute[0:2]))
         execute.updateCountdown(length)  # how to make this specific to each
 
-    def cosmic_ray(self):
+    def mutation(self):
          ran = random.random()
-         bit = G_Memory.RAM_bit[ran]
+         bit = self.soup.RAM_bit[ran]
          bit ^= 1
-         bit = G_Memory.RAM_bit[ran]
-
-
-    def repo_mutation(self):
-
-
+         bit = self.soup.RAM_bit[ran]

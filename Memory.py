@@ -9,6 +9,8 @@ class G_Memory:
         self.total_instructions = 0
         self.err_library = {'80aaa': 0} # keeps track of errors for each genotype
 
+    def get_RAM(self):
+        return self.RAM
 
     def get(self, offset, value):
         size = len(value)

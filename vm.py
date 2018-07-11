@@ -280,7 +280,7 @@ class CPU:  # computations must be probalistic
         sp = 0  # stack pointer
         st = [0] * 10  # ten-word stack
         ip = 0  # instruction pointer
-
+'''
     def life(self):
         while (instr_exec_c < alive):
             self.time_slice(this_slice)
@@ -299,4 +299,5 @@ class CPU:  # computations must be probalistic
             execute(di, ci)
             increment_ip(di, ce)
             system_work()
+            '''
 

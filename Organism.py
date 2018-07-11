@@ -5,6 +5,7 @@ class Organism:
         self.CPU = CPU
         self.mother = 'original'
         self.countdown = 0
+        self.movement = 0
 
     def isMother(self) -> bool:
         return True

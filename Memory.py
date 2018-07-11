@@ -1,6 +1,7 @@
 class G_Memory:
     def __init__(self):
         self.RAM = [0] * 60000 # soup
+        self.RAM_bit = [0] * 300000
         self.library = {'80aaa': 2} # genotype: index
         self.property = [False] * 60000
         self.num_cells = 1
@@ -12,6 +13,7 @@ class G_Memory:
     def get(self, offset, value):
         size = len(value)
         return self.RAM[offset: offset + size]
+
     def set(self, offset, value):
         size = len(value)
         self.RAM[offset: offset + size] = value

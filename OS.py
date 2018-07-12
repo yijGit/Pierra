@@ -44,10 +44,9 @@ class operating_system:
     def __init__(self, mem: G_Memory):
         self.reap = Queue()
         self.slice = Circle() # System maintains a circular queue
-        self.read = 0
         self.soup = mem
 
-    def cellularity(self, genotype) -> None: # Memory Allocation: As in will give rights to land for a genotype
+    def cellularity(self, genotype: str) -> None: # Memory Allocation: As in will give rights to land for a genotype
         # Each creature has exclusive write privilege: Mother and Daughter(MAL- memory allocation)
         # size of creature = size of genome (allocated block)
         # Divide: mother loses write privileges;  daughter cell is given its own IP, free allocate second block
@@ -63,7 +62,7 @@ class operating_system:
 
     def isOwned(self, beg, end) -> bool:
         for i in range(beg, end):
-            if self.soup.library[i] == True:
+            if self.soup.property[i] == True:
                 return True
         return False
 
@@ -86,8 +85,12 @@ class operating_system:
         gen2 = self.reap.pop(i + 1)
         self.reap.insert(i + 2, gen2)
         error2 = self.soup.err_library.get(gen2)
-        if error1 > error2:
+        while error1 > error2: # insert while loop until no champion
             self.reap.swap(genotype)
+            i += 1
+            gen2 = self.reap.pop(i + 1)
+            self.reap.insert(i + 2, gen2)
+            error2 = self.soup.err_library.get(gen2)
 
     def slicer_increase(self, mother: Organism, daughter: Organism):
         # doles out small slices of CPU time to each creature in the soup .

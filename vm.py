@@ -269,35 +269,3 @@ class Machine:
 
     def print(self):
         pass
-
-class CPU:  # computations must be probalistic
-    def __init__(self):
-        ax = 0  # address register
-        bx = 0  # ditto
-        cx = 0  # numeric register
-        dx = 0  # ditto
-        fl = 0  # error conditions
-        sp = 0  # stack pointer
-        st = [0] * 10  # ten-word stack
-        ip = 0  # instruction pointer
-'''
-    def life(self):
-        while (instr_exec_c < alive):
-            self.time_slice(this_slice)
-            incr_slice_queue()
-            while(free_mem_current < free_mem_prop * soup_size)
-                reaper()
-
-    def time_slice(self, ci):
-        Pcells ce  # pointer to array of cell structures
-        i = ''
-        di, j, size_slice = 0
-        ce = cells + ci
-        for j in range(len(size_slice)):
-            i = fetch(ce ->c.ip)
-            di = decode(i)
-            execute(di, ci)
-            increment_ip(di, ce)
-            system_work()
-            '''
-

@@ -15,6 +15,8 @@ class CPU:
         # the RAM inside the soup
         self.RAM = ram
 
+        self.daughter = None
+
         # the complete list of instructions with the corresponding opcodes
         self.dispatch_map = {
             0x00: self.nop0,
@@ -224,67 +226,24 @@ class CPU:
     def adrf(self):
         pass
 
-    def mal(self):
-        pass
+    def mal(self, num_cells):
+        d_code = open("creature" + num_cells + ".py", "wb")
+        for i in range(len(self.code)):
+            d_code.write(self.code[i] + '\n')
+        d_cpu = CPU(d_code)
+        d_mem = CPUMem()
+        self.daughter
+
 
     def divide(self):
-        pass
+        self.instruction_pointer += self.mem.cx
+        self.daughter.mem.ax = self.mem.ax
+        self.daughter.mem.bx = self.mem.bx
+        self.daughter.mem.cx = self.mem.cx
+        self.daughter.mem.dx = self.mem.dx
 
 
 
-    """
-    def ifz(self):
-        if (self.CX == 0):
-            pass
-        else:
-            self.instruction_pointer += 1
-
-    def iffl(self):
-        if (self.flag == 1):
-            pass
-        else:
-            self.instruction_pointer += 1
-
-    def jmp(self):  # read next four noop instructions: Assume Template
-        template = self.temp()
-        if self.test():
-            self.instruction_pointer = self.compl(template, 1)
-        else:
-            self.instruction_pointer = self.AX
-
-    def jmpb(self):  # Read Last four noop instructions: Assume Template
-        template = self.temp()
-        if self.test():
-            self.instruction_pointer = self.compl(template, 0)
-        else:
-            self.instruction_pointer = self.AX
-
-
-    def call(self):
-        self.push(self.instruction_pointer + 1)
-        template = self.code[2 * self.instruction_pointer + 1: 2 * self.instruction_pointer + 10]
-        flag = self.test(template)
-        if flag:
-            self.jmp()
-
-    def adr(self, RAM):
-        pass
-
-    def adrb(self):
-        pass
-
-    def adrf(self):
-        pass
-
-    def mal(self):
-        pass
-
-    def divide(self, num_cells):
-        self.instruction_pointer += self.CX
-        daughter = open("creature" + num_cells + ".py", "wb")
-        daughter.write(bytes("Machine[" + self.code + "]", 'UTF-8'))
-        
-    """
 
 
     def print(self):

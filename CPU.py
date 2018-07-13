@@ -5,13 +5,15 @@ A sample CPU class for use in every organism
 from LocMem import *
 
 class CPU():
-    def __init__(self, code: bytes, RAM):
+    def __init__(self, code, RAM):
 
         # the instruction set that the CPU must now perform
         self.code = code
 
         # the RAM inside the soup
         self.RAM = RAM
+
+        self.daughter = None
 
         # the complete list of instructions with the corresponding opcodes
         self.dispatch_map = {
@@ -190,13 +192,24 @@ class CPU():
     def adrf(self):
         pass
 
-    def mal(self):
-        pass
+    def mal(self, num_cells):
+        d_code = open("creature" + num_cells + ".py", "wb")
+        for i in range(len(self.code)):
+            d_code.write(self.code[i] + '\n')
+        d_cpu = CPU(d_code)
+        d_mem = CPUMem()
+        self.daughter
 
-    def divide(self, num_cells):
+
+    def divide(self):
         self.instruction_pointer += self.mem.cx
-        daughter = open("creature" + num_cells + ".py", "wb")
-        daughter.write(bytes(self.code))
+        self.daughter.mem.ax = self.mem.ax
+        self.daughter.mem.bx = self.mem.bx
+        self.daughter.mem.cx = self.mem.cx
+        self.daughter.mem.dx = self.mem.dx
+
+
+
 
     def temp(self):
         template = self.code[2 * self.instruction_pointer + 2: 2 * self.instruction_pointer + 11]

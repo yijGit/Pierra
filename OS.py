@@ -111,5 +111,8 @@ class operating_system:
          bit ^= 1
          bit = self.soup.RAM_bit[ran]
 
-    def mutation(self, org: Organism):
-        bit = self.org.Lo
+    def mutation(self, num, org: Organism):
+        ran = num
+        bit = org.code[ran]
+        bit ^= 1
+        bit = org.code[ran]

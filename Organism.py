@@ -1,13 +1,16 @@
-from vm import Machine
+from CPU import CPU
 from Memory import G_Memory
 from OS import operating_system
+from LocMem import CPUMem
+
 class Organism:
-    def __init__(self, code, processor: Machine, mem: G_Memory, OS: operating_system, mo_name: str):
+    def __init__(self, code, processor: CPU, mem: G_Memory, OS: operating_system, Local: CPUMem, mo_name: str):
         self.error_fault = 0
         self.code = code
         self.CPU = processor
         self.RAM = mem
         self.OS = OS
+        self.Local = Local
         self.mother = mo_name
         self.countdown = 0
         self.movement = 0

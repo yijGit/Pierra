@@ -5,7 +5,7 @@ A sample CPU class for use in every organism
 from LocMem import *
 
 class CPU():
-    def __init__(self, code, RAM):
+    def __init__(self, code: bytes, RAM):
 
         # the instruction set that the CPU must now perform
         self.code = code
@@ -193,8 +193,10 @@ class CPU():
     def mal(self):
         pass
 
-    def divide(self):
-        pass
+    def divide(self, num_cells):
+        self.instruction_pointer += self.mem.cx
+        daughter = open("creature" + num_cells + ".py", "wb")
+        daughter.write(bytes(self.code))
 
     def temp(self):
         template = self.code[2 * self.instruction_pointer + 2: 2 * self.instruction_pointer + 11]
@@ -233,62 +235,6 @@ class CPU():
                     return False
                 else:
                     return True
-
-
-    """
-    def ifz(self):
-        if (self.CX == 0):
-            pass
-        else:
-            self.instruction_pointer += 1
-
-    def iffl(self):
-        if (self.flag == 1):
-            pass
-        else:
-            self.instruction_pointer += 1
-
-    def jmp(self):  # read next four noop instructions: Assume Template
-        template = self.temp()
-        if self.test():
-            self.instruction_pointer = self.compl(template, 1)
-        else:
-            self.instruction_pointer = self.AX
-
-    def jmpb(self):  # Read Last four noop instructions: Assume Template
-        template = self.temp()
-        if self.test():
-            self.instruction_pointer = self.compl(template, 0)
-        else:
-            self.instruction_pointer = self.AX
-
-
-    def call(self):
-        self.push(self.instruction_pointer + 1)
-        template = self.code[2 * self.instruction_pointer + 1: 2 * self.instruction_pointer + 10]
-        flag = self.test(template)
-        if flag:
-            self.jmp()
-
-    def adr(self, RAM):
-        pass
-
-    def adrb(self):
-        pass
-
-    def adrf(self):
-        pass
-
-    def mal(self):
-        pass
-
-    def divide(self, num_cells):
-        self.instruction_pointer += self.CX
-        daughter = open("creature" + num_cells + ".py", "wb")
-        daughter.write(bytes("Machine[" + self.code + "]", 'UTF-8'))
-        
-    """
-
 
     def print(self):
         print(self.mem.top())

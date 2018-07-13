@@ -3,15 +3,17 @@ A sample CPU class for use in every organism
 """
 
 from LocMem import *
+from Memory import G_Memory
 
-class CPU():
-    def __init__(self, code, RAM):
+
+class CPU:
+    def __init__(self, code, ram):
 
         # the instruction set that the CPU must now perform
         self.code = code
 
         # the RAM inside the soup
-        self.RAM = RAM
+        self.RAM = ram
 
         # the complete list of instructions with the corresponding opcodes
         self.dispatch_map = {
@@ -58,6 +60,8 @@ class CPU():
 
         # TODO: Figure out if flag is in memory or in the CPU
         self.flag = 0
+
+        self.daughter = None
 
     # the fetch-decode-execute loop of the CPU
     def run(self) -> None:
@@ -161,21 +165,51 @@ class CPU():
         else:
             self.ip += 1
 
-    def jmp(self):
+    def jmp(self) -> None:
         # jmp to template, or if no template jmp back to address in ax
-        template = self.temp()
-        if self.test():
-            self.ip = self.compl(template, 1)
+        template = self.__read()
+        if self.__test(template):
+            temp = self.ip + 1
+            complement = self.__compl(template)
+            while temp < len(code) - 3:
+                if code[temp: temp + 4] == complement:
+                    self.ip = temp
+                    break
+                temp += 1
         else:
             self.ip = self.mem.ax
 
     def jmpb(self):
         # jmp back to template, or if no template jmp back to address in ax
-        pass
+        template = self.temp()
+        if self.test():
+            self.instruction_pointer = self.compl(template, 0)
+        else:
+            self.instruction_pointer = self.AX
+
+    def __test(self, template) -> bool:
+        for i in range(len(template)):
+            if template[i] != 0x01 and template[i] != 0x00:
+                return False
+        return True
+
+    def __read(self) -> bytearray:
+        template = bytearray()
+        for i in range(1, 5):
+            template.append(self.code[self.ip + i])
+        return template
+
+    def __compl(self, template) -> bytearray:
+        complement = bytearray()
+        for i in range(len(template)):
+            complement.append(template[i] ^ 1)
+        return complement
 
     def call(self):
         # push IP + 1 onto the stack; if template, jmp to complementary temp1
-        self.mem.push(self.code[self.ip + 1])
+        self.mem.push(self.ip + 1)
+        if template:
+            jmp(temp1)
 
     def adr(self):
         # search outward for template
@@ -196,43 +230,6 @@ class CPU():
     def divide(self):
         pass
 
-    def temp(self):
-        template = self.code[2 * self.instruction_pointer + 2: 2 * self.instruction_pointer + 11]
-        return template
-
-    def compl(self, template, dir):
-        complement = ""
-        for i in range(len(template)):
-            if i % 2 != 0:
-                if template.charAt(i) == 0:
-                    complement + "1"
-                else:
-                    complement + "0"
-            else:
-                complement + "0"
-        for i in range(len(self.code)):
-            if complement == self.code[i:i + 9]:
-                if dir == 1:
-                    self.instruction_pointer = (i + 8) / 2 + 1
-                elif dir == 0:
-                    self.instruction_pointer = i / 2
-                else:
-                    NotImplementedError("BAD")
-        return self.instruction_pointer
-
-    def test(self):
-        template = self.temp()
-        for i in range(len(template)):
-            if i % 2 != 0:
-                if i is not 0 or 1:
-                    return False
-                else:
-                    return True
-            else:
-                if i is not 0:
-                    return False
-                else:
-                    return True
 
 
     """
@@ -291,8 +288,21 @@ class CPU():
 
 
     def print(self):
-        print(self.mem.top())
+        print('AX = ' + str(self.mem.ax))
+        print('BX = ' + str(self.mem.bx))
+        print('CX = ' + str(self.mem.cx))
+        print('DX = ' + str(self.mem.dx))
 
-codes = [1, 0, 15, 15, 15, 15, 7, 32]
-main = CPU(codes)
+fram = bytearray()
+
+fram.append(0x01)
+fram.append(0x00)
+fram.append(0x0f)
+fram.append(0x0f)
+fram.append(0x0f)
+fram.append(0x0f)
+fram.append(0x20)
+codes = [1, 0, 15, 15, 7, 12, 15, 15, 7, 9, 32, 16, 16, 16, 32]
+RAM = G_Memory()
+main = CPU(fram, RAM)
 main.run()

@@ -20,6 +20,7 @@ class CPUMem:
         # stack and instruction pointer
         self.sp = 0
         self.ip = 0
+        self.input_buffer = None
         self.total_moved = 0
 
     # methods that assist in changing the state of the data stack

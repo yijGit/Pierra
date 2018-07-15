@@ -15,8 +15,6 @@ class CPU:
         # the RAM inside the soup
         self.RAM = ram
 
-        self.daughter = None
-
         # the complete list of instructions with the corresponding opcodes
         self.dispatch_map = {
             0x00: self.nop0,
@@ -63,6 +61,7 @@ class CPU:
         # TODO: Figure out if flag is in memory or in the CPU
         self.flag = 0
 
+        # the daughter
         self.daughter = None
 
     # the fetch-decode-execute loop of the CPU
@@ -173,9 +172,10 @@ class CPU:
         if self.__test(template):
             temp = self.ip + 1
             complement = self.__compl(template)
+            # TODO: Add a case if nothing is found
             while temp < len(code) - 3:
                 if code[temp: temp + 4] == complement:
-                    self.ip = temp
+                    self.ip = temp + 4
                     break
                 temp += 1
         else:
@@ -183,11 +183,26 @@ class CPU:
 
     def jmpb(self):
         # jmp back to template, or if no template jmp back to address in ax
+        template = self.__read()
+        if self.__test(template):
+            temp = self.ip
+            complement = self.__compl(template)
+            # TODO: Add a case if nothing is found
+            while temp - 3 > 0:
+                if code[temp - 4: temp] == complement:
+                    self.ip = temp + 1
+                    break
+                temp -= 1
+        else:
+            self.ip = self.mem.ax
+
+    """
         template = self.temp()
         if self.test():
             self.instruction_pointer = self.compl(template, 0)
         else:
             self.instruction_pointer = self.AX
+    """
 
     def __test(self, template) -> bool:
         for i in range(len(template)):

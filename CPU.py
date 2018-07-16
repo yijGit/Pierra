@@ -9,7 +9,7 @@ from OS import operating_system
 import random
 
 class CPU:
-    def __init__(self, organ: Organism, os: operating_system )
+    def __init__(self, os: operating_system):
 
         # the instruction set that the CPU must now perform
 
@@ -19,14 +19,13 @@ class CPU:
 
         self.property = os.soup.property
 
-        self.organism = organ
-
         # the RAM inside the soup
         self.RAM = os.soup.ram
 
-        self.code
+        self.countdown = 0
 
-        self.name = organ.name
+        # the registers and the data stack
+        self.mem = CPUMem()
 
         # the complete list of instructions with the corresponding opcodes
         self.dispatch_map = {
@@ -65,9 +64,6 @@ class CPU:
             0x20: self.print
         }
 
-        # the registers and the data stack
-        self.mem = CPUMem()
-
         # the instruction pointer that indicates where we are in the instruction set
         self.ip = 0
 
@@ -84,7 +80,7 @@ class CPU:
             self.decode(opcode)
             self.organism.countdown -= 1
             self.ip += 1
-        slicer.rotate()
+        self.os.slicer_rotate()
 
     def fetch(self) -> int:
         op = self.code[self.ip]
@@ -94,10 +90,6 @@ class CPU:
         if opcode in self.dispatch_map:
             self.dispatch_map.get(opcode, lambda: 'Not in dispatch map')()
         # TODO: figure out what to do if NOT in dispatch_map
-
-    def name(self):
-        if(self.library.include(name)):
-
 
     # no operations
     def nop0(self):
@@ -145,13 +137,20 @@ class CPU:
         self.mem.dx = self.mem.pop()
 
     def put(self):
-        if property.get(self.mem.cx) == self.name:
-            other = self.accessory[self.mem.dx]
-            other.mem.
+        template = self.__read()
+        PutLimit = 100
+        if self.__test(template):
+            compl = self.__compl(template)
+            for i in range(0, PutLimit):
+                if RAM[self.ip + self.start + i] == 
+        else:
+            if self.property.get(self.mem.cx) == self.name:
+                other = self.accessory.get(self.property.get(self.mem.cx))
+                other.mem.input_buffer = self.mem.dx
 
 
     def get(self):
-        self.mem.dx = int(input())
+        self.mem.dx = self.mem.input_buffer
 
     # calculations
     def inc(self):
@@ -267,8 +266,8 @@ class CPU:
         size = self.mem.cx
         d_start = self.mem.ax
         m_start = self.mem.bx
-        for i in range(size):
-            property{self.name: d_start + i}
+        for i in range(0, size):
+            property{d_start + i : self.mem.name}
 
 
     def divide(self):

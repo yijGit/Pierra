@@ -23,6 +23,14 @@ class CPUMem:
         self.input_buffer = None
         self.total_moved = 0
 
+        # other miscellaneous data
+        self.error_faults = 0
+        self.start = 0
+        self.end = 0
+        self.movement = 0
+        self.name = ''
+        self.length = len(code)
+
     # methods that assist in changing the state of the data stack
     def pop(self):
         return self.stack.pop()
@@ -32,4 +40,7 @@ class CPUMem:
 
     def top(self):
         return self.stack.top()
+
+    def name(self):
+        pass
 

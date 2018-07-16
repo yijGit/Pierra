@@ -5,8 +5,7 @@ class G_Memory:
         self.accessory =  {}  # genotype : Organism
         self.num_cells = 1
         self.total_instructions = 0
-        self.err_library = {'80aaa': 0} # genotype: error
-        self.slicer_lib = {} # genotype: index
+        self.err_library = {'80aaa': 0} # genotype: index
 
     def get_RAM(self):
         return self.RAM

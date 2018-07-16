@@ -9,10 +9,10 @@ class Organism:
         self.error_fault = 0
         self.start = 0
         self.end = 0
-        self.countdown = 0
         self.movement = 0
         self.name = ''
         self.length = len(code)
+        self.countdown = 0
 
     def name(self) -> str:
         num = len(self.code)/2

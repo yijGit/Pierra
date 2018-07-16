@@ -1,13 +1,12 @@
 class G_Memory:
     def __init__(self):
         self.RAM = [0x00] * 60000 # soup
-        self.RAM_bit = [0b00] * 300000
-        self.library = {'80aaa': 2} # genotype: index
-        self.property = [False] * 60000
+        self.property = {}  # index : genotype str
+        self.accessory =  {}  # genotype : Organism
         self.num_cells = 1
-        self.families = {'mother':'daughter'}
         self.total_instructions = 0
-        self.err_library = {'80aaa': 0} # keeps track of errors for each genotype
+        self.err_library = {'80aaa': 0} # genotype: error
+        self.slicer_lib = {} # genotype: index
 
     def get_RAM(self):
         return self.RAM

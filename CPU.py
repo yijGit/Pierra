@@ -4,16 +4,29 @@ A sample CPU class for use in every organism
 
 from LocMem import *
 from Memory import G_Memory
-
+from Organism import Organism
+from OS import operating_system
+import random
 
 class CPU:
-    def __init__(self, code, ram):
+    def __init__(self, organ: Organism, os: operating_system )
 
         # the instruction set that the CPU must now perform
-        self.code = code
+
+        self.os = os
+
+        self.accessory = os.soup.accessory
+
+        self.property = os.soup.property
+
+        self.organism = organ
 
         # the RAM inside the soup
-        self.RAM = ram
+        self.RAM = os.soup.ram
+
+        self.code
+
+        self.name = organ.name
 
         # the complete list of instructions with the corresponding opcodes
         self.dispatch_map = {
@@ -66,10 +79,12 @@ class CPU:
 
     # the fetch-decode-execute loop of the CPU
     def run(self) -> None:
-        for self.ip in range(len(self.code)):
+        while self.organism.countdown > 0:
             opcode = self.fetch()
             self.decode(opcode)
-        self.ip = 0
+            self.organism.countdown -= 1
+            self.ip += 1
+        slicer.rotate()
 
     def fetch(self) -> int:
         op = self.code[self.ip]
@@ -79,6 +94,10 @@ class CPU:
         if opcode in self.dispatch_map:
             self.dispatch_map.get(opcode, lambda: 'Not in dispatch map')()
         # TODO: figure out what to do if NOT in dispatch_map
+
+    def name(self):
+        if(self.library.include(name)):
+
 
     # no operations
     def nop0(self):
@@ -126,7 +145,10 @@ class CPU:
         self.mem.dx = self.mem.pop()
 
     def put(self):
-        pass
+        if property.get(self.mem.cx) == self.name:
+            other = self.accessory[self.mem.dx]
+            other.mem.
+
 
     def get(self):
         self.mem.dx = int(input())
@@ -241,13 +263,12 @@ class CPU:
     def adrf(self):
         pass
 
-    def mal(self, num_cells):
-        d_code = open("creature" + num_cells + ".py", "wb")
-        for i in range(len(self.code)):
-            d_code.write(self.code[i] + '\n')
-        d_cpu = CPU(d_code)
-        d_mem = CPUMem()
-        self.daughter
+    def mal(self):
+        size = self.mem.cx
+        d_start = self.mem.ax
+        m_start = self.mem.bx
+        for i in range(size):
+            property{self.name: d_start + i}
 
 
     def divide(self):

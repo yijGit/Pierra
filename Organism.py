@@ -5,12 +5,10 @@ from LocMem import CPUMem
 
 class Organism:
 
-    def __init__(self, code: bytearray, processor: CPU, Local: CPUMem):
+    def __init__(self):
         self.error_fault = 0
-        self.code = code
-        self.CPU = processor
-        self.Local = Local
-        self.mother = mo_name
+        self.start = 0
+        self.end = 0
         self.countdown = 0
         self.movement = 0
         self.name = ''

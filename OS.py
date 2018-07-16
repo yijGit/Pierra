@@ -102,7 +102,7 @@ class operating_system:
 
     def slicer_rotate(self):
         execute = slice.rotate(self)  # gives file that is rotating and rotates queue
-        length = int(.25 * int(execute[0:2]))
+        length = int(.10 * int(execute[0:2]))
         execute.updateCountdown(length)  # how to make this specific to each
 
     def mutation(self):

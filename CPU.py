@@ -75,15 +75,15 @@ class CPU:
 
     # the fetch-decode-execute loop of the CPU
     def run(self) -> None:
-        while self.organism.countdown > 0:
+        while self.countdown > 0:
             opcode = self.fetch()
             self.decode(opcode)
-            self.organism.countdown -= 1
+            self.countdown -= 1
             self.ip += 1
         self.os.slicer_rotate()
 
     def fetch(self) -> int:
-        op = self.code[self.ip]
+        op = self.RAM[self.ip]
         return op
 
     def decode(self, opcode) -> None:
@@ -110,19 +110,15 @@ class CPU:
 
     def pushax(self):
         self.mem.push(self.mem.ax)
-        self.mem.ax = 0
 
     def pushbx(self):
         self.mem.push(self.mem.bx)
-        self.mem.bx = 0
 
     def pushcx(self):
         self.mem.push(self.mem.cx)
-        self.mem.cx = 0
 
     def pushdx(self):
         self.mem.push(self.mem.dx)
-        self.mem.dx = 0
 
     def popax(self):
         self.mem.ax = self.mem.pop()
@@ -194,7 +190,7 @@ class CPU:
             temp = self.ip + 1
             complement = self.__compl(template)
             # TODO: Add a case if nothing is found
-            while temp < len(code) - 3:
+            while temp < len(self.code) - 3:
                 if code[temp: temp + 4] == complement:
                     self.ip = temp + 4
                     break
@@ -210,7 +206,7 @@ class CPU:
             complement = self.__compl(template)
             # TODO: Add a case if nothing is found
             while temp - 3 > 0:
-                if code[temp - 4: temp] == complement:
+                if self.code[temp - 4: temp] == complement:
                     self.ip = temp + 1
                     break
                 temp -= 1
@@ -234,8 +230,20 @@ class CPU:
     def __read(self) -> bytearray:
         template = bytearray()
         for i in range(1, 5):
-            template.append(self.code[self.ip + i])
+            template.append(self.RAM[self.ip + i])
         return template
+
+    """
+    def __read2(self) -> bytearray:
+        template = bytearray()
+        temp = self.ip + 1
+        opcode = self.RAM[temp]
+        while opcode == 0x01 or opcode == 0x00:
+            template.append(opcode)
+            temp += 1
+            opcode = self.RAM[temp]
+        return template
+    """
 
     def __compl(self, template) -> bytearray:
         complement = bytearray()
@@ -246,8 +254,7 @@ class CPU:
     def call(self):
         # push IP + 1 onto the stack; if template, jmp to complementary temp1
         self.mem.push(self.ip + 1)
-        if template:
-            jmp(temp1)
+        self.jmp()
 
     def adr(self):
         # search outward for template
@@ -257,7 +264,9 @@ class CPU:
 
 
     def adrb(self):
-        pass
+        template = self.__read()
+        if self.__test(template):
+
 
     def adrf(self):
         pass
@@ -271,7 +280,7 @@ class CPU:
 
 
     def divide(self):
-        self.instruction_pointer += self.mem.cx
+        self.ip += self.mem.cx
         self.daughter.mem.ax = self.mem.ax
         self.daughter.mem.bx = self.mem.bx
         self.daughter.mem.cx = self.mem.cx

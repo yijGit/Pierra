@@ -6,6 +6,7 @@ class G_Memory:
         self.num_cells = 1
         self.total_instructions = 0
         self.err_library = {'80aaa': 0} # genotype: index
+        self.ip = 0
 
     def get_RAM(self):
         return self.RAM

@@ -4,7 +4,6 @@ A sample CPU class for use in every organism
 
 from LocMem import *
 from Memory import G_Memory
-from Organism import Organism
 from OS import operating_system
 import random
 
@@ -64,26 +63,20 @@ class CPU:
             0x20: self.print
         }
 
-        # the instruction pointer that indicates where we are in the instruction set
-        self.ip = 0
-
         # TODO: Figure out if flag is in memory or in the CPU
         self.flag = 0
 
-        # the daughter
-        self.daughter = None
-
     # the fetch-decode-execute loop of the CPU
     def run(self) -> None:
-        while self.countdown > 0:
+        while self.organism.countdown > 0:
             opcode = self.fetch()
             self.decode(opcode)
             self.countdown -= 1
-            self.ip += 1
+            self.os.soup.ip += 1
         self.os.slicer_rotate()
 
     def fetch(self) -> int:
-        op = self.RAM[self.ip]
+        op = self.code[self.os.soup.ip]
         return op
 
     def decode(self, opcode) -> None:
@@ -100,13 +93,15 @@ class CPU:
 
     # memory movement
     def movdi(self):
-        self.RAM[self.mem.ax + self.mem.cx] = self.mem.bx
+        if self.property.get(self.mem.ax + self.mem.cx) == self.mem.name:
+            self.RAM[self.mem.ax + self.mem.cx] = self.mem.bx
 
     def movid(self):
         self.mem.ax = self.RAM[self.mem.bx + self.mem.cx]
 
     def movii(self):
-        self.RAM[self.mem.ax + self.mem.cx] = self.RAM[self.mem.bx + self.mem.cx]
+        if self.property.get(self.mem.ax + self.mem.cx) == self.mem.name:
+            self.RAM[self.mem.ax + self.mem.cx] = self.RAM[self.mem.bx + self.mem.cx]
 
     def pushax(self):
         self.mem.push(self.mem.ax)
@@ -138,7 +133,14 @@ class CPU:
         if self.__test(template):
             compl = self.__compl(template)
             for i in range(0, PutLimit):
-                if RAM[self.ip + self.start + i] == 
+                forward = self.os.soup.ip + self.start + i
+                backward = self.os.soup.ip + self.start - i
+                if RAM[forward: forward + 4] == compl:
+                    other = self.accessory.get(self.property.get(forward))
+                    other.mem.input_buffer = self.mem.dx
+                if RAM[backward - 4: backward] == compl:
+                    other = self.accessory.get(self.property.get(backward))
+                    other.mem.input_buffer = self.mem.dx
         else:
             if self.property.get(self.mem.cx) == self.name:
                 other = self.accessory.get(self.property.get(self.mem.cx))
@@ -175,43 +177,43 @@ class CPU:
         if self.mem.cx == 0:
             return
         else:
-            self.ip += 1
+            self.os.soup.ip += 1
 
     def iffl(self) -> None:
         if self.flag == 1:
             return
         else:
-            self.ip += 1
+            self.os.soup.ip += 1
 
     def jmp(self) -> None:
         # jmp to template, or if no template jmp back to address in ax
         template = self.__read()
         if self.__test(template):
-            temp = self.ip + 1
+            temp = self.os.soup.ip + 1
             complement = self.__compl(template)
             # TODO: Add a case if nothing is found
-            while temp < len(self.code) - 3:
+            while temp < len(code) - 3:
                 if code[temp: temp + 4] == complement:
-                    self.ip = temp + 4
+                    self.os.soup.ip = temp + 4
                     break
                 temp += 1
         else:
-            self.ip = self.mem.ax
+            self.os.soup.ip = self.mem.ax
 
     def jmpb(self):
         # jmp back to template, or if no template jmp back to address in ax
         template = self.__read()
         if self.__test(template):
-            temp = self.ip
+            temp = self.os.soup.ip
             complement = self.__compl(template)
             # TODO: Add a case if nothing is found
             while temp - 3 > 0:
-                if self.code[temp - 4: temp] == complement:
-                    self.ip = temp + 1
+                if code[temp - 4: temp] == complement:
+                    self.os.soup.ip = temp + 1
                     break
                 temp -= 1
         else:
-            self.ip = self.mem.ax
+            self.os.soup.ip = self.mem.ax
 
     """
         template = self.temp()
@@ -230,20 +232,8 @@ class CPU:
     def __read(self) -> bytearray:
         template = bytearray()
         for i in range(1, 5):
-            template.append(self.RAM[self.ip + i])
+            template.append(self.code[self.os.soup.ip + i])
         return template
-
-    """
-    def __read2(self) -> bytearray:
-        template = bytearray()
-        temp = self.ip + 1
-        opcode = self.RAM[temp]
-        while opcode == 0x01 or opcode == 0x00:
-            template.append(opcode)
-            temp += 1
-            opcode = self.RAM[temp]
-        return template
-    """
 
     def __compl(self, template) -> bytearray:
         complement = bytearray()
@@ -253,8 +243,9 @@ class CPU:
 
     def call(self):
         # push IP + 1 onto the stack; if template, jmp to complementary temp1
-        self.mem.push(self.ip + 1)
-        self.jmp()
+        self.mem.push(self.os.soup.ip + 1)
+        if template:
+            jmp(temp1)
 
     def adr(self):
         # search outward for template
@@ -264,9 +255,7 @@ class CPU:
 
 
     def adrb(self):
-        template = self.__read()
-        if self.__test(template):
-
+        pass
 
     def adrf(self):
         pass
@@ -274,21 +263,20 @@ class CPU:
     def mal(self):
         size = self.mem.cx
         d_start = self.mem.ax
-        m_start = self.mem.bx
         for i in range(0, size):
-            property{d_start + i : self.mem.name}
-
+            self.property[d_start + i] = self.mem.name
 
     def divide(self):
-        self.ip += self.mem.cx
-        self.daughter.mem.ax = self.mem.ax
-        self.daughter.mem.bx = self.mem.bx
-        self.daughter.mem.cx = self.mem.cx
-        self.daughter.mem.dx = self.mem.dx
-
-
-
-
+        self.os.soup.ip += self.mem.cx
+        daughter = CPU(self.os)
+        daughter.mem.ax = self.mem.ax
+        daughter.mem.bx = self.mem.bx
+        daughter.mem.cx = self.mem.cx
+        daughter.mem.dx = self.mem.dx
+        daughter.mem.name()
+        for i in range(0, daughter.mem.ax):
+            self.property[daughter.mem.ax + i] = daughter.mem.name
+        self.slicer() # FIX
 
     def print(self):
         print('AX = ' + str(self.mem.ax))

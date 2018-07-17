@@ -1,6 +1,5 @@
 import random
 from Memory import G_Memory
-from CPU import CPU
 
 
 class Queue:
@@ -81,7 +80,7 @@ class operating_system:
             self.reap.insert(i + 2, gen2)
             error2 = self.soup.err_library.get(gen2)
 
-    def slicer_increase(self, mother: CPU, daughter: CPU):
+    def slicer_increase(self, mother, daughter):
         # doles out small slices of CPU time to each creature in the soup .
         # Each creature has is created a CPU
         # daughter is just ahead of mother

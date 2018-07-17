@@ -4,6 +4,7 @@ class G_Memory:
         self.bounds = range(len(self.RAM))
         self.property = {}  # index : genotype str
         self.accessory = {}  # genotype : Organism
+        self.names = {} #number (int): string
         self.cells_alive = 0
         self.size = 60000
         self.total_instructions = 0
@@ -19,9 +20,9 @@ class G_Memory:
 
     def set(self, offset, value):
         assert offset in self.bounds, 'Memory.get: offset ({}) not in bounds ({})'.format(offset, self.bounds)
+        size = len(value)
         assert offset + size in self.bounds, 'Memory.get: offset + size ({}) not in bounds ({})'.format(offset + size,
                                                                                                         self.bounds)
-        size = len(value)
         self.RAM[offset: offset + size] = value
 
     def fill(self, value):

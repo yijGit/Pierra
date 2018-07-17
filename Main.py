@@ -11,9 +11,9 @@ with open('80aaa.txt', 'r') as ancestor:
     for line in ancestor:
         Global.RAM[i] = line
         i += 1
-ances_CPU.mem.name()
 ances_CPU.mem.length = i - 1
 ances_CPU.mem.end = i - 1
+ances_CPU.mem.name(Global.names)
 for j in range(0, i - 1):
     Global.property[i] = ances_CPU.mem.name
 Global.accessory[ances_CPU.mem.name] = ances_CPU

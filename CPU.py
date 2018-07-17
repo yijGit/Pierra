@@ -26,6 +26,8 @@ class CPU:
         # the registers and the data stack
         self.mem = CPUMem()
 
+        self.name = self.mem.name()
+
         # the complete list of instructions with the corresponding opcodes
         self.dispatch_map = {
             0x00: self.nop0,
@@ -65,6 +67,7 @@ class CPU:
 
         # TODO: Figure out if flag is in memory or in the CPU
         self.flag = 0
+        self.random = random.random * (2500 - 1000) + 1000
 
     # the fetch-decode-execute loop of the CPU
     def run(self) -> None:
@@ -95,6 +98,7 @@ class CPU:
     def movdi(self):
         if self.property.get(self.mem.ax + self.mem.cx) == self.mem.name:
             self.RAM[self.mem.ax + self.mem.cx] = self.mem.bx
+            self.movement()
 
     def movid(self):
         self.mem.ax = self.RAM[self.mem.bx + self.mem.cx]
@@ -102,6 +106,13 @@ class CPU:
     def movii(self):
         if self.property.get(self.mem.ax + self.mem.cx) == self.mem.name:
             self.RAM[self.mem.ax + self.mem.cx] = self.RAM[self.mem.bx + self.mem.cx]
+            self.movement()
+
+    def movement(self):
+        self.mem.movement += 1
+        if self.mem.movement == self.random:
+            self.os.mutation(self.mem.ax + self.mem.cx)
+            self.random = random.random * (2500 - 1000) + 1000
 
     def pushax(self):
         self.mem.push(self.mem.ax)
@@ -133,8 +144,8 @@ class CPU:
         if self.__test(template):
             compl = self.__compl(template)
             for i in range(0, PutLimit):
-                forward = self.os.soup.ip + self.start + i
-                backward = self.os.soup.ip + self.start - i
+                forward = self.os.soup.ip + self.mem.start + i
+                backward = self.os.soup.ip + self.mem.start - i
                 if RAM[forward: forward + 4] == compl:
                     other = self.accessory.get(self.property.get(forward))
                     other.mem.input_buffer = self.mem.dx
@@ -142,7 +153,7 @@ class CPU:
                     other = self.accessory.get(self.property.get(backward))
                     other.mem.input_buffer = self.mem.dx
         else:
-            if self.property.get(self.mem.cx) == self.name:
+            if self.property.get(self.mem.cx) == self.mem.name:
                 other = self.accessory.get(self.property.get(self.mem.cx))
                 other.mem.input_buffer = self.mem.dx
 
@@ -276,7 +287,7 @@ class CPU:
         daughter.mem.name()
         for i in range(0, daughter.mem.ax):
             self.property[daughter.mem.ax + i] = daughter.mem.name
-        self.slicer() # FIX
+        self.os.reapUpdate()
 
     def print(self):
         print('AX = ' + str(self.mem.ax))

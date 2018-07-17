@@ -1,6 +1,7 @@
 import random
 from Memory import G_Memory
 from CPU import CPU
+from LocMem import CPUMem
 class Queue:
     def __init__(self):
         self.items = []
@@ -41,41 +42,14 @@ class Circle(Queue):
 
 
 class operating_system:
-    def __init__(self, mem: G_Memory):
+    def __init__(self, memory: G_Memory):
         self.reap = Queue()
         self.slice = Circle() # System maintains a circular queue
-        self.soup = mem
-
-    def cellularity(self, genotype: str) -> None: # Memory Allocation: As in will give rights to land for a genotype
-        # Each creature has exclusive write privilege: Mother and Daughter(MAL- memory allocation)
-        # size of creature = size of genome (allocated block)
-        # Divide: mother loses write privileges;  daughter cell is given its own IP, free allocate second block
-        beg = self.soup.library[genotype]
-        end = int(genotype[0:2]) + beg + 1
-        for i in range(beg, end):
-            self.soup.property[i] = True
-
-
-    def insert_Fam(self, mother, daughter) -> None:
-        self.soup.families[mother] = daughter
-
-
-    def isOwned(self, beg, end) -> bool:
-        for i in range(beg, end):
-            if self.soup.property[i] == True:
-                return True
-        return False
-
-
-    def isOwned(self, index) -> bool:
-        if self.soup.library[index] == True:
-            return True
-        else:
-            return False
+        self.soup = memory()
 
     def reapUpdate(self, file):
         self.reap.enqueue(file)
-        if self.reap.size() > (.8 * len(self.soup.RAM)):
+        if self.soup.cells_alive > (.8 * len(self.soup.RAM)):
             self.reap.dequeue()
             self.slice.dequeue()
 
@@ -101,18 +75,17 @@ class operating_system:
         self.slice.insert(i + 1, daughter)
 
     def slicer_rotate(self):
-        execute = slice.rotate(self)  # gives file that is rotating and rotates queue
-        length = int(.10 * int(execute[0:2]))
-        execute.updateCountdown(length)  # how to make this specific to each
+        execute = self.slice.rotate()  # gives file that is rotating and rotates queue
+        length = .1 * execute.mem.length()
+        execute.mem.updateCountdown(length)  # how to make this specific to each
 
     def mutation(self):
-         ran = random.random()
-         bit = self.soup.RAM_bit[ran]
-         bit ^= 1
-         bit = self.soup.RAM_bit[ran]
-
-    def mutation(self, num, org: Organism):
-        ran = num
-        bit = org.code[ran]
+        ran = random.random()
+        bit = self.soup.RAM[ran]
         bit ^= 1
-        bit = org.code[ran]
+        bit = self.soup.RAM[ran]
+
+    def mutation(self, num):
+        bit = self.soup.RAM[num]
+        bit ^= 1
+        bit = self.soup.RAM[num]

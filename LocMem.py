@@ -19,7 +19,6 @@ class CPUMem:
 
         # stack and instruction pointer
         self.sp = 0
-        self.ip = 0
         self.input_buffer = None
         self.total_moved = 0
 
@@ -29,7 +28,7 @@ class CPUMem:
         self.end = 0
         self.movement = 0
         self.name = ''
-        self.length = len(code)
+        self.length = 0
 
     # methods that assist in changing the state of the data stack
     def pop(self):

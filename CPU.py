@@ -68,15 +68,15 @@ class CPU:
 
     # the fetch-decode-execute loop of the CPU
     def run(self) -> None:
-        while self.organism.countdown > 0:
+        while self.countdown > 0:
             opcode = self.fetch()
             self.decode(opcode)
             self.countdown -= 1
-            self.os.soup.ip += 1
+            self.ip += 1
         self.os.slicer_rotate()
 
     def fetch(self) -> int:
-        op = self.code[self.os.soup.ip]
+        op = self.RAM[self.os.soup.ip]
         return op
 
     def decode(self, opcode) -> None:
@@ -133,8 +133,8 @@ class CPU:
         if self.__test(template):
             compl = self.__compl(template)
             for i in range(0, PutLimit):
-                forward = self.os.soup.ip + self.start + i
-                backward = self.os.soup.ip + self.start - i
+                forward = self.os.soup.ip + self.mem.start + i
+                backward = self.os.soup.ip + self.mem.start - i
                 if RAM[forward: forward + 4] == compl:
                     other = self.accessory.get(self.property.get(forward))
                     other.mem.input_buffer = self.mem.dx
@@ -142,7 +142,7 @@ class CPU:
                     other = self.accessory.get(self.property.get(backward))
                     other.mem.input_buffer = self.mem.dx
         else:
-            if self.property.get(self.mem.cx) == self.name:
+            if self.property.get(self.mem.cx) == self.mem.name:
                 other = self.accessory.get(self.property.get(self.mem.cx))
                 other.mem.input_buffer = self.mem.dx
 
@@ -186,17 +186,34 @@ class CPU:
             self.os.soup.ip += 1
 
     def jmp(self) -> None:
-        # jmp to template, or if no template jmp back to address in ax
         template = self.__read()
+        jump_limit = 100
         if self.__test(template):
-            temp = self.os.soup.ip + 1
+            self.os.soup.ip += 1
             complement = self.__compl(template)
-            # TODO: Add a case if nothing is found
-            while temp < len(code) - 3:
-                if code[temp: temp + 4] == complement:
-                    self.os.soup.ip = temp + 4
+            while jump_limit > 0
+                pointer = self.os.soup.ip
+                if self.RAM[pointer: pointer + 4] == complement:
+                    self.os.soup.ip = pointer + 3
                     break
-                temp += 1
+                self.os.soup.ip += 1
+                jump_limit -= 1
+        else:
+            self.os.soup.ip = self.mem.ax
+
+    def jmpb2(self):
+        # TODO: Adjust the parameters of the self.RAM array
+        template = self.__read()
+        jump_limit = 100
+        if self.__test(template):
+            complement = self.__compl(template)
+            while jump_limit > 0
+                pointer = self.os.soup.ip
+                if self.RAM[pointer - 4: pointer] == complement:
+                    self.os.soup.ip = pointer + 1
+                    break
+                self.os.soup.ip -= 1
+                jump_limit -= 1
         else:
             self.os.soup.ip = self.mem.ax
 
@@ -208,6 +225,8 @@ class CPU:
             complement = self.__compl(template)
             # TODO: Add a case if nothing is found
             while temp - 3 > 0:
+                if self.code[temp - 4: temp] == complement:
+                    self.ip = temp + 1
                 if code[temp - 4: temp] == complement:
                     self.os.soup.ip = temp + 1
                     break
@@ -215,25 +234,18 @@ class CPU:
         else:
             self.os.soup.ip = self.mem.ax
 
-    """
-        template = self.temp()
-        if self.test():
-            self.instruction_pointer = self.compl(template, 0)
-        else:
-            self.instruction_pointer = self.AX
-    """
-
-    def __test(self, template) -> bool:
-        for i in range(len(template)):
-            if template[i] != 0x01 and template[i] != 0x00:
-                return False
-        return True
-
     def __read(self) -> bytearray:
         template = bytearray()
-        for i in range(1, 5):
-            template.append(self.code[self.os.soup.ip + i])
+        pointer = self.os.soup.ip + 1
+        opcode = self.RAM[pointer]
+        while pointer == 0x00 or pointer == 0x01:
+            template.append(opcode)
+            pointer += 1
+            opcode = self.RAM[pointer]
         return template
+
+    def __test(self, template) -> bool:
+        return len(template) != 0
 
     def __compl(self, template) -> bytearray:
         complement = bytearray()
@@ -244,8 +256,7 @@ class CPU:
     def call(self):
         # push IP + 1 onto the stack; if template, jmp to complementary temp1
         self.mem.push(self.os.soup.ip + 1)
-        if template:
-            jmp(temp1)
+        self.jmp()
 
     def adr(self):
         # search outward for template
@@ -255,7 +266,9 @@ class CPU:
 
 
     def adrb(self):
-        pass
+        template = self.__read()
+        if self.__test(template):
+
 
     def adrf(self):
         pass

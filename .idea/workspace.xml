@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab35e65c-836d-41b1-9cff-e15cd1777f9b" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Pierra.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Pierra.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CPU.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPU.py" afterDir="false" />
     </list>
@@ -66,8 +64,11 @@
       <file leaf-file-name="CPU.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CPU.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-209">
-              <caret line="43" column="29" lean-forward="true" selection-start-line="43" selection-start-column="29" selection-end-line="43" selection-end-column="29" />
+            <state relative-caret-position="360">
+              <caret line="186" lean-forward="true" selection-start-line="186" selection-end-line="258" selection-end-column="18" />
+              <folding>
+                <element signature="e#54#74#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -94,16 +95,15 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1585" />
-    <option name="width" value="1630" />
-    <option name="height" value="1715" />
+    <option name="y" value="23" />
+    <option name="width" value="1680" />
+    <option name="height" value="948" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -124,6 +124,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -184,40 +185,45 @@
       <option name="project" value="LOCAL" />
       <updated>1531767301791</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Updated jmp function">
+      <created>1531767368345</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1531767368345</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Getting rid of the code array and the organism class">
+      <created>1531767700679</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1531767700679</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="948" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11904762" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.083333336" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5011905" side_tool="true" weight="0.32951945" />
-      <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49880952" weight="0.32951945" />
       <window_info anchor="bottom" id="Python Console" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.08346582" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49920508" visible="true" weight="0.0" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5007949" side_tool="true" visible="true" weight="0.0" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Messages" order="7" />
-      <window_info anchor="bottom" id="Python Console" order="7" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -228,7 +234,9 @@
       <path value="$PROJECT_DIR$/PyVM" />
     </ignored-roots>
     <MESSAGE value="Merge branch 'master' of https://github.com/yijGit/Pierra&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;CPU.py&#10;#&#9;Memory.py&#10;#&#9;Organism.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/yijGit/Pierra&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;CPU.py&#10;#&#9;Memory.py&#10;#&#9;Organism.py" />
+    <MESSAGE value="Updated jmp function" />
+    <MESSAGE value="Getting rid of the code array and the organism class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Getting rid of the code array and the organism class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -332,8 +340,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CPU.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-209">
-          <caret line="43" column="29" lean-forward="true" selection-start-line="43" selection-start-column="29" selection-end-line="43" selection-end-column="29" />
+        <state relative-caret-position="360">
+          <caret line="186" lean-forward="true" selection-start-line="186" selection-end-line="258" selection-end-column="18" />
+          <folding>
+            <element signature="e#54#74#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

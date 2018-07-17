@@ -71,7 +71,7 @@ class CPU:
 
     # the fetch-decode-execute loop of the CPU
     def run(self) -> None:
-        while self.organism.countdown > 0:
+        while self.countdown > 0:
             opcode = self.fetch()
             self.decode(opcode)
             self.countdown -= 1
@@ -79,7 +79,7 @@ class CPU:
         self.os.slicer_rotate()
 
     def fetch(self) -> int:
-        op = self.code[self.os.soup.ip]
+        op = self.RAM[self.os.soup.ip]
         return op
 
     def decode(self, opcode) -> None:
@@ -197,54 +197,48 @@ class CPU:
             self.os.soup.ip += 1
 
     def jmp(self) -> None:
-        # jmp to template, or if no template jmp back to address in ax
         template = self.__read()
+        jump_limit = 100
         if self.__test(template):
-            temp = self.os.soup.ip + 1
+            self.os.soup.ip += 1
             complement = self.__compl(template)
-            # TODO: Add a case if nothing is found
-            while temp < len(code) - 3:
-                if code[temp: temp + 4] == complement:
-                    self.os.soup.ip = temp + 4
+            while jump_limit > 0
+                pointer = self.os.soup.ip
+                if self.RAM[pointer: pointer + len(template)] == complement:
+                    self.os.soup.ip = pointer + 3
                     break
-                temp += 1
+                self.os.soup.ip += 1
+                jump_limit -= 1
         else:
             self.os.soup.ip = self.mem.ax
 
     def jmpb(self):
-        # jmp back to template, or if no template jmp back to address in ax
         template = self.__read()
+        jump_limit = 100
         if self.__test(template):
-            temp = self.os.soup.ip
             complement = self.__compl(template)
-            # TODO: Add a case if nothing is found
-            while temp - 3 > 0:
-                if code[temp - 4: temp] == complement:
-                    self.os.soup.ip = temp + 1
+            while jump_limit > 0
+                pointer = self.os.soup.ip
+                if self.RAM[pointer - len(template): pointer] == complement:
+                    self.os.soup.ip = pointer - 1
                     break
-                temp -= 1
+                self.os.soup.ip -= 1
+                jump_limit -= 1
         else:
             self.os.soup.ip = self.mem.ax
 
-    """
-        template = self.temp()
-        if self.test():
-            self.instruction_pointer = self.compl(template, 0)
-        else:
-            self.instruction_pointer = self.AX
-    """
-
-    def __test(self, template) -> bool:
-        for i in range(len(template)):
-            if template[i] != 0x01 and template[i] != 0x00:
-                return False
-        return True
-
     def __read(self) -> bytearray:
         template = bytearray()
-        for i in range(1, 5):
-            template.append(self.code[self.os.soup.ip + i])
+        pointer = self.os.soup.ip + 1
+        opcode = self.RAM[pointer]
+        while pointer == 0x00 or pointer == 0x01:
+            template.append(opcode)
+            pointer += 1
+            opcode = self.RAM[pointer]
         return template
+
+    def __test(self, template) -> bool:
+        return len(template) != 0
 
     def __compl(self, template) -> bytearray:
         complement = bytearray()
@@ -255,21 +249,30 @@ class CPU:
     def call(self):
         # push IP + 1 onto the stack; if template, jmp to complementary temp1
         self.mem.push(self.os.soup.ip + 1)
-        if template:
-            jmp(temp1)
+        self.jmp()
 
     def adr(self):
-        # search outward for template
+        #TODO: Figure out which jmp to do for adr
         self.mem.ax = address
         self.mem.dx = size
         self.mem.cx = offset
 
 
     def adrb(self):
-        pass
+        template = self.__read()
+        self.mem.dx = len(template)
+        self.jmpb()
+        self.mem.ax = self.os.soup.ip + 1
+        #TODO: Figure out register CX
+        self.mem.cx = 0
 
     def adrf(self):
-        pass
+        template = self.__read()
+        self.mem.dx = len(template)
+        self.jmp()
+        self.mem.ax = self.os.soup.ip + 1
+        #TODO: Figure out register CX
+        self.mem.cx = 0
 
     def mal(self):
         size = self.mem.cx

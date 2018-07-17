@@ -75,7 +75,7 @@ class CPU:
             opcode = self.fetch()
             self.decode(opcode)
             self.countdown -= 1
-            self.ip += 1
+            self.os.soup.ip += 1
         self.os.slicer_rotate()
 
     def fetch(self) -> int:
@@ -204,7 +204,7 @@ class CPU:
             complement = self.__compl(template)
             while jump_limit > 0
                 pointer = self.os.soup.ip
-                if self.RAM[pointer: pointer + 4] == complement:
+                if self.RAM[pointer: pointer + len(template)] == complement:
                     self.os.soup.ip = pointer + 3
                     break
                 self.os.soup.ip += 1
@@ -212,36 +212,18 @@ class CPU:
         else:
             self.os.soup.ip = self.mem.ax
 
-    def jmpb2(self):
-        # TODO: Adjust the parameters of the self.RAM array
+    def jmpb(self):
         template = self.__read()
         jump_limit = 100
         if self.__test(template):
             complement = self.__compl(template)
             while jump_limit > 0
                 pointer = self.os.soup.ip
-                if self.RAM[pointer - 4: pointer] == complement:
-                    self.os.soup.ip = pointer + 1
+                if self.RAM[pointer - len(template): pointer] == complement:
+                    self.os.soup.ip = pointer - 1
                     break
                 self.os.soup.ip -= 1
                 jump_limit -= 1
-        else:
-            self.os.soup.ip = self.mem.ax
-
-    def jmpb(self):
-        # jmp back to template, or if no template jmp back to address in ax
-        template = self.__read()
-        if self.__test(template):
-            temp = self.os.soup.ip
-            complement = self.__compl(template)
-            # TODO: Add a case if nothing is found
-            while temp - 3 > 0:
-                if self.code[temp - 4: temp] == complement:
-                    self.ip = temp + 1
-                if code[temp - 4: temp] == complement:
-                    self.os.soup.ip = temp + 1
-                    break
-                temp -= 1
         else:
             self.os.soup.ip = self.mem.ax
 
@@ -270,7 +252,7 @@ class CPU:
         self.jmp()
 
     def adr(self):
-        # search outward for template
+        #TODO: Figure out which jmp to do for adr
         self.mem.ax = address
         self.mem.dx = size
         self.mem.cx = offset
@@ -278,11 +260,19 @@ class CPU:
 
     def adrb(self):
         template = self.__read()
-        if self.__test(template):
-
+        self.mem.dx = len(template)
+        self.jmpb()
+        self.mem.ax = self.os.soup.ip + 1
+        #TODO: Figure out register CX
+        self.mem.cx = 0
 
     def adrf(self):
-        pass
+        template = self.__read()
+        self.mem.dx = len(template)
+        self.jmp()
+        self.mem.ax = self.os.soup.ip + 1
+        #TODO: Figure out register CX
+        self.mem.cx = 0
 
     def mal(self):
         size = self.mem.cx

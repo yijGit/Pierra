@@ -288,6 +288,7 @@ class CPU:
         for i in range(0, daughter.mem.ax):
             self.property[daughter.mem.ax + i] = daughter.mem.name
         self.os.reapUpdate()
+        self.os.
 
     def print(self):
         print('AX = ' + str(self.mem.ax))

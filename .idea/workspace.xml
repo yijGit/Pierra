@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab35e65c-836d-41b1-9cff-e15cd1777f9b" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CPU.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPU.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -63,10 +64,32 @@
       <file leaf-file-name="CPU.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CPU.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="254" column="49" selection-start-line="254" selection-start-column="49" selection-end-line="254" selection-end-column="49" />
+            <state relative-caret-position="-50">
+              <caret line="261" column="8" selection-start-line="261" selection-start-column="8" selection-end-line="261" selection-end-column="8" />
               <folding>
                 <element signature="e#54#74#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Main.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OS.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/OS.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -207,7 +230,14 @@
       <option name="project" value="LOCAL" />
       <updated>1531796083958</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added the address methods">
+      <created>1531800790364</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1531800790364</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -245,7 +275,8 @@
     <MESSAGE value="Updated jmp function" />
     <MESSAGE value="Getting rid of the code array and the organism class" />
     <MESSAGE value="Updated the jmp/jmpb functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated the jmp/jmpb functions" />
+    <MESSAGE value="Added the address methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added the address methods" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -253,8 +284,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/PyVM/example.py" />
-    <entry file="file://$PROJECT_DIR$/PyVM/unittest_basics.py" />
     <entry file="file://$PROJECT_DIR$/PyVM/unittest_VM.py" />
     <entry file="file://$PROJECT_DIR$/../HelloPython/classio.py" />
     <entry file="file://$PROJECT_DIR$/PyVM/README.md" />
@@ -347,10 +376,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OS.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CPU.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="254" column="49" selection-start-line="254" selection-start-column="49" selection-end-line="254" selection-end-column="49" />
+        <state relative-caret-position="-50">
+          <caret line="261" column="8" selection-start-line="261" selection-start-column="8" selection-end-line="261" selection-end-column="8" />
           <folding>
             <element signature="e#54#74#0" expanded="true" />
           </folding>

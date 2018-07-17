@@ -253,10 +253,13 @@ class CPU:
 
     def adr(self):
         #TODO: Figure out which jmp to do for adr
-        self.mem.ax = address
-        self.mem.dx = size
-        self.mem.cx = offset
-
+        self.adrb()
+        tempax = self.mem.ax
+        tempdx = self.mem.dx
+        self.adrf()
+        tempax2 = self.mem.ax
+        tempdx2 = self.mem.dx
+        
 
     def adrb(self):
         template = self.__read()

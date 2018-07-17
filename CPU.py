@@ -259,7 +259,7 @@ class CPU:
         self.adrf()
         tempax2 = self.mem.ax
         tempdx2 = self.mem.dx
-        
+
 
     def adrb(self):
         template = self.__read()

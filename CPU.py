@@ -149,10 +149,10 @@ class CPU:
             for i in range(0, PutLimit):
                 forward = self.mem.ip + self.mem.start + i
                 backward = self.mem.ip + self.mem.start - i
-                if RAM[forward: forward + 4] == compl:
+                if self.RAM[forward: forward + 4] == compl:
                     other = self.accessory.get(self.property.get(forward))
                     other.mem.input_buffer = self.mem.dx
-                if RAM[backward - 4: backward] == compl:
+                if self.RAM[backward - 4: backward] == compl:
                     other = self.accessory.get(self.property.get(backward))
                     other.mem.input_buffer = self.mem.dx
         else:
@@ -334,16 +334,10 @@ class CPU:
         print('CX = ' + str(self.mem.cx))
         print('DX = ' + str(self.mem.dx))
 
-fram = bytearray()
 
-fram.append(0x01)
-fram.append(0x00)
-fram.append(0x0f)
-fram.append(0x0f)
-fram.append(0x0f)
-fram.append(0x0f)
-fram.append(0x20)
 codes = [1, 0, 15, 15, 7, 12, 15, 15, 7, 9, 32, 16, 16, 16, 32]
-OS = operating_system(fram)
+memory = G_Memory()
+OS = operating_system(memory)
+f = open('/Users/jlyi/Desktop/Princeton/Pierra/setofinstructions.txt', 'r')
 main = CPU(OS)
 main.run()

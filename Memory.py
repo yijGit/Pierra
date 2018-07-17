@@ -4,7 +4,7 @@ class G_Memory:
         self.bounds = range(len(self.RAM))
         self.property = {}  # index : genotype str
         self.accessory = {}  # genotype : Organism
-        self.names = {} #number (int): string
+        self.names = {} # length(str): num of names
         self.cells_alive = 0
         self.size = 60000
         self.total_instructions = 0

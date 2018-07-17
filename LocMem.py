@@ -42,17 +42,15 @@ class CPUMem:
         return self.stack.top()
 
     def name(self, names: dict):
-        title = '' + self.length
-        string = ''
-        char_array = names.get(title)
-        for i in range(0, 26):
-            for j in range(0, 26):
-                for z in range(0, 26):
-                    chars= [97 + i, 97 + j, 97 + z]
-                    for i in range(0, 3):
-                        a = chr(chars[i])
-                        string += a
-                    if char_array[i * 26 * 26 + j * 26 + z] == string:
-                        names[title] = string
-                        title += string
-                        break
+        title = str(self.length)
+        num_names = names.get(title)
+        first = (num_names / (26 * 26)) + 97
+        second = ((num_names - (first - 97) * 26 * 26) / 26) + 97
+        third = (num_names - (second - 97) * 26 - (first - 97) * 26 * 26) + 97
+        fir = chr(first)
+        sec = chr(second)
+        thir = chr(third)
+        string = ''.join([fir, sec, thir])
+        names[title] += 1
+        title += string
+        self.name = title

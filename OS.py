@@ -1,8 +1,11 @@
 import random
 from Memory import G_Memory
 from CPU import CPU
-from LocMem import CPUMem
+
+
 class Queue:
+
+
     def __init__(self):
         self.items = []
 
@@ -10,17 +13,23 @@ class Queue:
         return self.items == []
 
     def enqueue(self, item):
-        self.items.insert(0,item)
+        self.items.insert(0, item)
+
+    def insert(self, num, item):
+        self.items.insert(num, item)
 
     def dequeue(self):
         return self.items.pop()
 
-    def swap(self, i, dir):
-        if dir is 1:
+    def pop(self, num):
+        return self.items.pop(num)
+
+    def swap(self, i, num):
+        if num is 1:
             bef = self.items.pop(i + 1)
             self.items.insert(i, bef)
-        elif dir is 0:
-            bef = self.item.pop(i)
+        elif num is 0:
+            bef = self.items.pop(i)
             self.items.insert(i, bef)
 
     def index(self, element):
@@ -32,12 +41,11 @@ class Queue:
 
 class Circle(Queue):
     def __init__(self):
-        super(Circle, self).__init__(self)
-
+        super(Circle, self).__init__()
 
     def rotate(self):
         val = self.items.pop()
-        self.items.enqueue(val)
+        self.items.insert(0, val)
         return val
 
 
@@ -45,14 +53,14 @@ class operating_system:
     def __init__(self, memory: G_Memory):
         self.reap = Queue()
         self.slice = Circle() # System maintains a circular queue
-        self.soup = memory()
+        self.soup = memory
 
     def reapUpdate(self, file):
         self.reap.enqueue(file)
         if self.soup.cells_alive > (.8 * len(self.soup.RAM)):
             death = self.reap.dequeue()
             local = self.slice.index(death)
-            corpse = self.slice.dequeue.pop(local)
+            corpse = self.slice.pop(local)
             begin = corpse.mem.start
             end = corpse.mem.length + begin
             for i in range(begin, end + 1):
@@ -67,7 +75,7 @@ class operating_system:
         self.reap.insert(i + 2, gen2)
         error2 = self.soup.err_library.get(gen2)
         while error1 > error2: # insert while loop until no champion
-            self.reap.swap(genotype)
+            self.reap.swap(genotype, 0)
             i += 1
             gen2 = self.reap.pop(i + 1)
             self.reap.insert(i + 2, gen2)
@@ -84,17 +92,12 @@ class operating_system:
     def slicer_rotate(self):
         execute = self.slice.rotate()  # gives file that is rotating and rotates queue
         length = .1 * execute.mem.length()
-        self.soup.ip = execute.mem.start
         execute.mem.updateCountdown(length)  # how to make this specific to each
         execute.run()
 
-    def mutation(self):
-        ran = random.random()
-        bit = self.soup.RAM[ran]
-        bit ^= 1
-        bit = self.soup.RAM[ran]
+    def cosmic_ray(self):
+        ran = random.random() * len(self.soup.RAM)
+        self.soup.RAM[ran] ^= 1
 
     def mutation(self, num):
-        bit = self.soup.RAM[num]
-        bit ^= 1
-        bit = self.soup.RAM[num]
+        self.soup.RAM[num] ^= 1

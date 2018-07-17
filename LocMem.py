@@ -21,6 +21,7 @@ class CPUMem:
         self.sp = 0
         self.input_buffer = None
         self.total_moved = 0
+        self.ip = 0
 
         # other miscellaneous data
         self.error_faults = 0

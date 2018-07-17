@@ -26,7 +26,7 @@ class CPU:
         # the registers and the data stack
         self.mem = CPUMem()
 
-        self.name = self.mem.name()
+        self.name = self.mem.name(os.soup.names)
 
         # the complete list of instructions with the corresponding opcodes
         self.dispatch_map = {
@@ -99,7 +99,7 @@ class CPU:
 
     # memory movement
     def movdi(self):
-        if self.property.get(self.mem.ax + self.mem.cx) == self.mem.name:
+        if self.property.get(self.mem.ax + self.mem.cx) == self.name:
             self.RAM[self.mem.ax + self.mem.cx] = self.mem.bx
             self.movement()
 
@@ -107,7 +107,7 @@ class CPU:
         self.mem.ax = self.RAM[self.mem.bx + self.mem.cx]
 
     def movii(self):
-        if self.property.get(self.mem.ax + self.mem.cx) == self.mem.name:
+        if self.property.get(self.mem.ax + self.mem.cx) == self.name:
             self.RAM[self.mem.ax + self.mem.cx] = self.RAM[self.mem.bx + self.mem.cx]
             self.movement()
 
@@ -156,7 +156,7 @@ class CPU:
                     other = self.accessory.get(self.property.get(backward))
                     other.mem.input_buffer = self.mem.dx
         else:
-            if self.property.get(self.mem.cx) == self.mem.name:
+            if self.property.get(self.mem.cx) == selfname:
                 other = self.accessory.get(self.property.get(self.mem.cx))
                 other.mem.input_buffer = self.mem.dx
 
@@ -281,7 +281,7 @@ class CPU:
                     self.mem.ax = pointer - len(template)
                     break
                 pointer -= 1
-                jump_limit -= 1
+                adr_limit -= 1
         else:
             pass
 
@@ -299,7 +299,7 @@ class CPU:
                     self.mem.ax = pointer + len(template) - 1
                     break
                 pointer += 1
-                jump_limit -= 1
+                adr_limit -= 1
         else:
             pass
 
@@ -307,7 +307,7 @@ class CPU:
         size = self.mem.cx
         d_start = self.mem.ax
         for i in range(0, size):
-            self.property[d_start + i] = self.mem.name
+            self.property[d_start + i] = self.name
 
     def divide(self):
         self.mem.ip += self.mem.cx

@@ -78,6 +78,7 @@ class operating_system:
         execute = self.slice.rotate()  # gives file that is rotating and rotates queue
         length = .1 * execute.mem.length()
         execute.mem.updateCountdown(length)  # how to make this specific to each
+        execute.run()
 
     def mutation(self):
         ran = random.random()

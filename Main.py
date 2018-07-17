@@ -1,5 +1,4 @@
 from CPU import CPU
-
 from OS import operating_system
 from Memory import G_Memory
 import random
@@ -14,5 +13,6 @@ with open('80aaa.txt', 'r') as ancestor:
         i += 1
 ances_CPU.mem.length = i - 1
 ances_CPU.mem.end = i - 1
+ances_CPU.run()
 
 

@@ -8,9 +8,6 @@ class G_Memory:
         self.err_library = {'80aaa': 0} # genotype: index
         self.ip = 0
 
-    def get_RAM(self):
-        return self.RAM
-
     def get(self, offset, value):
         size = len(value)
         return self.RAM[offset: offset + size]

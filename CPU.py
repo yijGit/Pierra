@@ -202,7 +202,7 @@ class CPU:
         if self.__test(template):
             self.os.soup.ip += 1
             complement = self.__compl(template)
-            while jump_limit > 0
+            while jump_limit > 0:
                 pointer = self.os.soup.ip
                 if self.RAM[pointer: pointer + len(template)] == complement:
                     self.os.soup.ip = pointer + 3
@@ -217,7 +217,7 @@ class CPU:
         jump_limit = 100
         if self.__test(template):
             complement = self.__compl(template)
-            while jump_limit > 0
+            while jump_limit > 0:
                 pointer = self.os.soup.ip
                 if self.RAM[pointer - len(template): pointer] == complement:
                     self.os.soup.ip = pointer - 1
@@ -287,11 +287,15 @@ class CPU:
         daughter.mem.bx = self.mem.bx
         daughter.mem.cx = self.mem.cx
         daughter.mem.dx = self.mem.dx
+        daughter.mem.length = self.mem.ax
+        daughter.mem.start = self.mem.cx
+        daughter.mem.end = self.mem.ax + self.mem.cx
         daughter.mem.name()
         for i in range(0, daughter.mem.ax):
             self.property[daughter.mem.ax + i] = daughter.mem.name
         self.os.reapUpdate()
-        self.os.
+        self.os.soup.cells_alive += 1
+        self.os.soup.accesory[daughter.mem.name] = daughter
 
     def print(self):
         print('AX = ' + str(self.mem.ax))

@@ -78,7 +78,7 @@ class CPU:
             self.mem.ip += 1
             self.os.soup.total_instructions += 1
             if self.os.soup.total_instructions == 10000:
-                self.os.mutation()
+                self.os.cosmic_ray()
         self.os.slicer_rotate()
 
     def fetch(self) -> int:
@@ -296,10 +296,11 @@ class CPU:
         daughter.mem.name()
         for i in range(0, daughter.mem.ax):
             self.property[daughter.mem.ax + i] = daughter.mem.name
-        self.os.reapUpdate()
+        self.os.reapUpdate(daughter.mem.name)
         self.os.soup.cells_alive += 1
         self.os.soup.accesory[daughter.mem.name] = daughter
         self.mem.ip = daughter.mem.start
+        self.os.slicer_rotate()
 
     def print(self):
         print('AX = ' + str(self.mem.ax))

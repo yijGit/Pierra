@@ -21,7 +21,7 @@ class CPUMem:
         self.sp = 0
         self.input_buffer = None
         self.total_moved = 0
-        self.ip = 0
+        self.ip = self.start
 
         # other miscellaneous data
         self.error_faults = 0
@@ -42,5 +42,6 @@ class CPUMem:
         return self.stack.top()
 
     def name(self):
-        pass
+        name = '' + self.length
+
 

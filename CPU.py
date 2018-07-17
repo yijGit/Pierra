@@ -208,7 +208,7 @@ class CPU:
             while jump_limit > 0:
                 pointer = self.mem.ip
                 if self.RAM[pointer: pointer + len(template)] == complement:
-                    self.mem.ip = pointer + 3
+                    self.mem.ip = pointer + len(template) - 1
                     break
                 self.mem.ip += 1
                 jump_limit -= 1
@@ -255,30 +255,53 @@ class CPU:
         self.jmp()
 
     def adr(self):
-        #TODO: Figure out which jmp to do for adr
+        #TODO: Figure out offset without defaulting to zero
+        #TODO: Figure out what happens if there is no template
         self.adrb()
         tempax = self.mem.ax
         tempdx = self.mem.dx
         self.adrf()
         tempax2 = self.mem.ax
         tempdx2 = self.mem.dx
-
+        if tempax < tempax2:
+            self.mem.ax = tempax
+        if tempdx < tempdx2:
+            self.mem.dx = tempdx
 
     def adrb(self):
+        self.mem.cx = 0
         template = self.__read()
         self.mem.dx = len(template)
-        self.jmpb()
-        self.mem.ax = self.mem.ip + 1
-        #TODO: Figure out register CX
-        self.mem.cx = 0
+        adr_limit = 100
+        pointer = self.mem.ip
+        if self.__test(template):
+            complement = self.__compl(template)
+            while adr_limit > 0:
+                if self.RAM[pointer - len(template): pointer] == complement:
+                    self.mem.ax = pointer - len(template)
+                    break
+                pointer -= 1
+                jump_limit -= 1
+        else:
+            pass
 
     def adrf(self):
+        self.mem.cx = 0
         template = self.__read()
         self.mem.dx = len(template)
-        self.jmp()
-        self.mem.ax = self.mem.ip + 1
-        #TODO: Figure out register CX
-        self.mem.cx = 0
+        adr_limit = 100
+        pointer = self.mem.ip
+        if self.__test(template):
+            pointer += 1
+            complement = self.__compl(template)
+            while adr_limit > 0:
+                if self.RAM[pointer: pointer + len(template)] == complement:
+                    self.mem.ax = pointer + len(template) - 1
+                    break
+                pointer += 1
+                jump_limit -= 1
+        else:
+            pass
 
     def mal(self):
         size = self.mem.cx
@@ -320,6 +343,6 @@ fram.append(0x0f)
 fram.append(0x0f)
 fram.append(0x20)
 codes = [1, 0, 15, 15, 7, 12, 15, 15, 7, 9, 32, 16, 16, 16, 32]
-RAM = G_Memory()
-main = CPU(fram, RAM)
+OS = operating_system(fram)
+main = CPU(OS)
 main.run()

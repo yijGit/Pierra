@@ -5,8 +5,7 @@ class G_Memory:
         self.accessory = {}  # genotype : Organism
         self.cells_alive = 0
         self.total_instructions = 0
-        self.err_library = {'80aaa': 0} # genotype: index
-        self.ip = 0
+        self.err_library = {} # genotype: index
 
     def get(self, offset, value):
         size = len(value)

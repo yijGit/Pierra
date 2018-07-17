@@ -75,11 +75,14 @@ class CPU:
             opcode = self.fetch()
             self.decode(opcode)
             self.countdown -= 1
-            self.os.soup.ip += 1
+            self.mem.ip += 1
+            self.os.soup.total_instructions += 1
+            if self.os.soup.total_instructions == 10000:
+                self.os.mutation()
         self.os.slicer_rotate()
 
     def fetch(self) -> int:
-        op = self.RAM[self.os.soup.ip]
+        op = self.RAM[self.mem.ip]
         return op
 
     def decode(self, opcode) -> None:
@@ -144,8 +147,8 @@ class CPU:
         if self.__test(template):
             compl = self.__compl(template)
             for i in range(0, PutLimit):
-                forward = self.os.soup.ip + self.mem.start + i
-                backward = self.os.soup.ip + self.mem.start - i
+                forward = self.mem.ip + self.mem.start + i
+                backward = self.mem.ip + self.mem.start - i
                 if RAM[forward: forward + 4] == compl:
                     other = self.accessory.get(self.property.get(forward))
                     other.mem.input_buffer = self.mem.dx
@@ -188,29 +191,29 @@ class CPU:
         if self.mem.cx == 0:
             return
         else:
-            self.os.soup.ip += 1
+            self.mem.ip += 1
 
     def iffl(self) -> None:
         if self.flag == 1:
             return
         else:
-            self.os.soup.ip += 1
+            self.mem.ip += 1
 
     def jmp(self) -> None:
         template = self.__read()
         jump_limit = 100
         if self.__test(template):
-            self.os.soup.ip += 1
+            self.mem.ip += 1
             complement = self.__compl(template)
             while jump_limit > 0:
-                pointer = self.os.soup.ip
+                pointer = self.mem.ip
                 if self.RAM[pointer: pointer + len(template)] == complement:
-                    self.os.soup.ip = pointer + 3
+                    self.mem.ip = pointer + 3
                     break
-                self.os.soup.ip += 1
+                self.mem.ip += 1
                 jump_limit -= 1
         else:
-            self.os.soup.ip = self.mem.ax
+            self.mem.ip = self.mem.ax
 
     def jmpb(self):
         template = self.__read()
@@ -218,18 +221,18 @@ class CPU:
         if self.__test(template):
             complement = self.__compl(template)
             while jump_limit > 0:
-                pointer = self.os.soup.ip
+                pointer = self.mem.ip
                 if self.RAM[pointer - len(template): pointer] == complement:
-                    self.os.soup.ip = pointer - 1
+                    self.mem.ip = pointer - 1
                     break
-                self.os.soup.ip -= 1
+                self.mem.ip -= 1
                 jump_limit -= 1
         else:
-            self.os.soup.ip = self.mem.ax
+            self.mem.ip = self.mem.ax
 
     def __read(self) -> bytearray:
         template = bytearray()
-        pointer = self.os.soup.ip + 1
+        pointer = self.mem.ip + 1
         opcode = self.RAM[pointer]
         while pointer == 0x00 or pointer == 0x01:
             template.append(opcode)
@@ -248,7 +251,7 @@ class CPU:
 
     def call(self):
         # push IP + 1 onto the stack; if template, jmp to complementary temp1
-        self.mem.push(self.os.soup.ip + 1)
+        self.mem.push(self.mem.ip + 1)
         self.jmp()
 
     def adr(self):
@@ -262,7 +265,7 @@ class CPU:
         template = self.__read()
         self.mem.dx = len(template)
         self.jmpb()
-        self.mem.ax = self.os.soup.ip + 1
+        self.mem.ax = self.mem.ip + 1
         #TODO: Figure out register CX
         self.mem.cx = 0
 
@@ -270,7 +273,7 @@ class CPU:
         template = self.__read()
         self.mem.dx = len(template)
         self.jmp()
-        self.mem.ax = self.os.soup.ip + 1
+        self.mem.ax = self.mem.ip + 1
         #TODO: Figure out register CX
         self.mem.cx = 0
 
@@ -281,14 +284,14 @@ class CPU:
             self.property[d_start + i] = self.mem.name
 
     def divide(self):
-        self.os.soup.ip += self.mem.cx
+        self.mem.ip += self.mem.cx
         daughter = CPU(self.os)
         daughter.mem.ax = self.mem.ax
         daughter.mem.bx = self.mem.bx
         daughter.mem.cx = self.mem.cx
         daughter.mem.dx = self.mem.dx
-        daughter.mem.length = self.mem.ax
-        daughter.mem.start = self.mem.cx
+        daughter.mem.start = self.mem.ax
+        daughter.mem.length = self.mem.cx
         daughter.mem.end = self.mem.ax + self.mem.cx
         daughter.mem.name()
         for i in range(0, daughter.mem.ax):
@@ -296,6 +299,7 @@ class CPU:
         self.os.reapUpdate()
         self.os.soup.cells_alive += 1
         self.os.soup.accesory[daughter.mem.name] = daughter
+        self.mem.ip = daughter.mem.start
 
     def print(self):
         print('AX = ' + str(self.mem.ax))

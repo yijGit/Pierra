@@ -50,8 +50,15 @@ class operating_system:
     def reapUpdate(self, file):
         self.reap.enqueue(file)
         if self.soup.cells_alive > (.8 * len(self.soup.RAM)):
-            self.reap.dequeue()
-            self.slice.dequeue()
+            death = self.reap.dequeue()
+            local = self.slice.index(death)
+            corpse = self.slice.dequeue.pop(local)
+            begin = corpse.mem.start
+            end = corpse.mem.length + begin
+            for i in range(begin, end + 1):
+                self.soup.property[i] = None
+            self.soup.cells_alive -= 1
+
 
     def reapError(self, genotype: str) -> None:
         error1 = self.soup.err_library.get(genotype)
@@ -77,6 +84,7 @@ class operating_system:
     def slicer_rotate(self):
         execute = self.slice.rotate()  # gives file that is rotating and rotates queue
         length = .1 * execute.mem.length()
+        self.soup.ip = execute.mem.start
         execute.mem.updateCountdown(length)  # how to make this specific to each
         execute.run()
 

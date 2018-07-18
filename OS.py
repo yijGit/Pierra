@@ -48,7 +48,7 @@ class Circle(Queue):
 
     def rotate(self):
         val = self.items.pop()
-        self.items.enqueue(val)
+        self.enqueue(val)
         return val
 
 
@@ -60,7 +60,7 @@ class operating_system:
 
     def reapUpdate(self, file): # uses names
         self.reap.enqueue(file)
-        self.cells_alive += 1
+        self.soup.cells_alive += 1
         if self.soup.cells_alive > (.8 * len(self.soup.RAM)):
             death = self.reap.dequeue()
             for i in range(0, self. slicey.size()):
@@ -99,15 +99,19 @@ class operating_system:
 
     def slicer_start(self, ancestor):
         self.slicey.enqueue(ancestor)
+        length = int(.1 * ancestor.mem.length)
+        ancestor.updateCountdown(length)  # how to make this specific to each
+        while not self.slicey.isEmpty():
+            self.slicer_rotate()
 
     def slicer_rotate(self):
         execute = self.slicey.rotate()  # gives file that is rotating and rotates queue
-        length = .1 * execute.mem.length
-        execute.mem.updateCountdown(length)  # how to make this specific to each
+        length = int(.1 * execute.mem.length)
+        execute.updateCountdown(length)  # how to make this specific to each
         execute.run()
 
     def cosmic_ray(self):
-        ran = random.random() * len(self.soup.RAM)
+        ran = int(random.random() * len(self.soup.RAM))
         self.soup.RAM[ran] ^= 1
 
     def mutation(self, num):

@@ -19,14 +19,14 @@ class CPU:
         self.property = os.soup.property
 
         # the RAM inside the soup
-        self.RAM = os.soup.ram
+        self.RAM = os.soup.RAM
 
-        self.countdown = 0
+        self.countdown = 675
 
         # the registers and the data stack
         self.mem = CPUMem()
 
-        self.name = self.mem.name(os.soup.names)
+        # self.name = self.mem.naming(os.soup.names)
 
         # the complete list of instructions with the corresponding opcodes
         self.dispatch_map = {
@@ -67,19 +67,26 @@ class CPU:
 
         # TODO: Figure out if flag is in memory or in the CPU
         self.flag = 0
-        self.random = random.random * (2500 - 1000) + 1000
+        self.random = random.random() * (2500 - 1000) + 1000
 
     # the fetch-decode-execute loop of the CPU
     def run(self) -> None:
         while self.countdown > 0:
             opcode = self.fetch()
+            #print('ip: ' + str(self.mem.ip) + ' / opcode = ' + str(hex(opcode)))
             self.decode(opcode)
+            #print('     self.mem.ax = ' + str(self.mem.ax))
+            #print('     self.mem.bx = ' + str(self.mem.bx))
+            #print('     self.mem.cx = ' + str(self.mem.cx))
+            #print('     self.mem.dx = ' + str(self.mem.dx))
+            #if not self.mem.isEmpty():
+            #print('     top of stack = ' + str(self.mem.top()))
             self.countdown -= 1
             self.mem.ip += 1
             self.os.soup.total_instructions += 1
             if self.os.soup.total_instructions == 10000:
                 self.os.cosmic_ray()
-        self.os.slicer_rotate()
+        # self.os.slicer_rotate()
 
     def fetch(self) -> int:
         op = self.RAM[self.mem.ip]
@@ -99,23 +106,25 @@ class CPU:
 
     # memory movement
     def movdi(self):
-        if self.property.get(self.mem.ax + self.mem.cx) == self.name:
-            self.RAM[self.mem.ax + self.mem.cx] = self.mem.bx
-            self.movement()
+        #if self.property.get(self.mem.ax + self.mem.cx) == self.name:
+        self.RAM[self.mem.ax + self.mem.cx] = self.mem.bx
+        #self.movement()
 
     def movid(self):
         self.mem.ax = self.RAM[self.mem.bx + self.mem.cx]
 
     def movii(self):
-        if self.property.get(self.mem.ax + self.mem.cx) == self.name:
-            self.RAM[self.mem.ax + self.mem.cx] = self.RAM[self.mem.bx + self.mem.cx]
-            self.movement()
+        #if self.property.get(self.mem.ax + self.mem.cx) == self.name:
+        self.RAM[self.mem.ax + self.mem.cx] = self.RAM[self.mem.bx + self.mem.cx]
+        #self.movement()
 
+    '''
     def movement(self):
         self.mem.movement += 1
         if self.mem.movement == self.random:
             self.os.mutation(self.mem.ax + self.mem.cx)
             self.random = random.random * (2500 - 1000) + 1000
+    '''
 
     def pushax(self):
         self.mem.push(self.mem.ax)
@@ -234,7 +243,7 @@ class CPU:
         template = bytearray()
         pointer = self.mem.ip + 1
         opcode = self.RAM[pointer]
-        while pointer == 0x00 or pointer == 0x01:
+        while opcode == 0x00 or opcode == 0x01:
             template.append(opcode)
             pointer += 1
             opcode = self.RAM[pointer]
@@ -251,7 +260,7 @@ class CPU:
 
     def call(self):
         # push IP + 1 onto the stack; if template, jmp to complementary temp1
-        self.mem.push(self.mem.ip + 1)
+        self.mem.push(self.RAM[self.mem.ip + 1])
         self.jmp()
 
     def adr(self):
@@ -278,7 +287,8 @@ class CPU:
             complement = self.__compl(template)
             while adr_limit > 0:
                 if self.RAM[pointer - len(template): pointer] == complement:
-                    self.mem.ax = pointer - len(template)
+                    self.mem.ax = pointer
+                    self.mem.ip += len(template)
                     break
                 pointer -= 1
                 adr_limit -= 1
@@ -297,6 +307,7 @@ class CPU:
             while adr_limit > 0:
                 if self.RAM[pointer: pointer + len(template)] == complement:
                     self.mem.ax = pointer + len(template) - 1
+                    self.mem.ip += len(template)
                     break
                 pointer += 1
                 adr_limit -= 1
@@ -306,8 +317,10 @@ class CPU:
     def mal(self):
         size = self.mem.cx
         d_start = self.mem.ax
+        '''
         for i in range(0, size):
             self.property[d_start + i] = self.name
+        '''
 
     def divide(self):
         self.mem.ip += self.mem.cx
@@ -319,13 +332,15 @@ class CPU:
         daughter.mem.start = self.mem.ax
         daughter.mem.length = self.mem.cx
         daughter.mem.end = self.mem.ax + self.mem.cx
-        daughter.mem.name()
+        '''
+         daughter.mem.naming(self.RAM)
         for i in range(0, daughter.mem.ax):
             self.property[daughter.mem.ax + i] = daughter.mem.name
         self.os.reapUpdate(daughter.mem.name)
         self.os.soup.accesory[daughter.mem.name] = daughter
         self.mem.ip = daughter.mem.start
         self.os.slicer_rotate()
+        '''
 
     def print(self):
         print('AX = ' + str(self.mem.ax))
@@ -333,16 +348,23 @@ class CPU:
         print('CX = ' + str(self.mem.cx))
         print('DX = ' + str(self.mem.dx))
 
-fram = bytearray()
 
-fram.append(0x01)
-fram.append(0x00)
-fram.append(0x0f)
-fram.append(0x0f)
-fram.append(0x0f)
-fram.append(0x0f)
-fram.append(0x20)
-codes = [1, 0, 15, 15, 7, 12, 15, 15, 7, 9, 32, 16, 16, 16, 32]
-OS = operating_system(fram)
+codes = [0x1, 0x1, 0x1, 0x1, 0x13, 0x1c, 0x00, 0x00, 0x00, 0x00, 0x05, 0x0b, 0x12, 0x07, 0x13, 0x1d, 0x00, 0x00, 0x00, 0x01, 0x05, 0x0b, 0x0f, 0x0c, 0x12, 0x01, 0x01, 0x00, 0x01,
+         0x1e, 0x1a, 0x00, 0x00, 0x01, 0x01, 0x1f, 0x19, 0x00, 0x00, 0x01, 0x00, 0x16, 0x01, 0x01, 0x00, 0x00, 0x07, 0x08, 0x08, 0x0a, 0x01, 0x00, 0x01, 0x00, 0x10, 0x04,
+         0x16, 0x18, 0x00, 0x01, 0x00, 0x00, 0x19, 0x00, 0x01, 0x00, 0x01, 0x16, 0x01, 0x00, 0x01, 0x01, 0x0c, 0x0b, 0x09, 0x18, 0x16, 0x01, 0x01, 0x01, 0x00, 0x16]
+memory = G_Memory()
+print(len(codes))
+for i in range(len(codes)):
+    memory.RAM[i] = codes[i]
+print('BEFORE RUNNING: MOTHER -------------')
+for i in range(len(codes)):
+    print(hex(memory.RAM[i]))
+OS = operating_system(memory)
 main = CPU(OS)
 main.run()
+print('AFTER RUNNING: MOTHER -----------------------')
+for i in range(len(codes)):
+    print(hex(memory.RAM[i]))
+print('SECOND ----------------------')
+for i in range(len(codes), len(codes) * 2):
+    print(memory.RAM[i])

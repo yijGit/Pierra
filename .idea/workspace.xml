@@ -58,8 +58,8 @@
       <file leaf-file-name="LocMem.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LocMem.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="488">
-              <caret line="63" column="39" selection-start-line="63" selection-start-column="39" selection-end-line="63" selection-end-column="39" />
+            <state relative-caret-position="77">
+              <caret line="61" column="42" lean-forward="true" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -303,7 +303,14 @@
       <option name="project" value="LOCAL" />
       <updated>1531950581473</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Completed the basics. Now onto the mutations.">
+      <created>1531955170162</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1531955170162</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -312,8 +319,8 @@
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13333334" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5011905" side_tool="true" weight="0.6693364" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49880952" visible="true" weight="0.23340961" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="11" sideWeight="0.5011905" side_tool="true" visible="true" weight="0.6693364" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49880952" weight="0.4645309" />
       <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.49880952" weight="0.32951945" />
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -501,8 +508,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LocMem.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="63" column="39" selection-start-line="63" selection-start-column="39" selection-end-line="63" selection-end-column="39" />
+        <state relative-caret-position="77">
+          <caret line="61" column="42" lean-forward="true" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
         </state>
       </provider>
     </entry>

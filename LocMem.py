@@ -61,6 +61,7 @@ class CPUMem:
         thir = chr(third)
         string = ''.join([fir, sec, thir])
         names[title] += 1
+        print("lines:" +str(title) + " #: " + str(names[title]) + " string: " + string)
         self.name = str(title) + string
 
     def isEmpty(self):

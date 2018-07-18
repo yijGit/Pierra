@@ -323,7 +323,6 @@ class CPU:
         for i in range(0, daughter.mem.ax):
             self.property[daughter.mem.ax + i] = daughter.mem.name
         self.os.reapUpdate(daughter.mem.name)
-        self.os.soup.cells_alive += 1
         self.os.soup.accesory[daughter.mem.name] = daughter
         self.mem.ip = daughter.mem.start
         self.os.slicer_rotate()

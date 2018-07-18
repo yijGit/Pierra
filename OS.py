@@ -34,6 +34,9 @@ class Queue:
     def index(self, element):
         return self.items.index(element)
 
+    def elementAt(self, index):
+        return self.items[index]
+
     def size(self):
         return len(self.items)
 
@@ -44,22 +47,26 @@ class Circle(Queue):
 
     def rotate(self):
         val = self.items.pop()
-        self.items.insert(0, val)
+        self.items.enqueue(val)
         return val
 
 
 class operating_system:
     def __init__(self, memory: G_Memory):
         self.reap = Queue()
-        self.slice = Circle() # System maintains a circular queue
+        self.slicey = Circle() # System maintains a circular queue
         self.soup = memory
 
-    def reapUpdate(self, file):
+    def reapUpdate(self, file): # uses names
         self.reap.enqueue(file)
+        self.cells_alive += 1
         if self.soup.cells_alive > (.8 * len(self.soup.RAM)):
             death = self.reap.dequeue()
-            local = self.slice.index(death)
-            corpse = self.slice.pop(local)
+            for i in range(0, self. slicey.size()):
+                if self.slicey.elementAt(i).name == death:
+                    local = i
+                    break
+            corpse = self.slicey.pop(local)
             begin = corpse.mem.start
             end = corpse.mem.length + begin
             for i in range(begin, end + 1):
@@ -85,12 +92,15 @@ class operating_system:
         # Each creature has is created a CPU
         # daughter is just ahead of mother
         # number of instructions executed must be proportional to the size of the genome
-        i = self.slice.index(mother)
-        self.slice.insert(i + 1, daughter)
+        i = self.slicey.index(mother)
+        self.slicey.insert(i + 1, daughter)
+
+    def slicer_start(self, ancestor):
+        self.slicey.enqueue(ancestor)
 
     def slicer_rotate(self):
-        execute = self.slice.rotate()  # gives file that is rotating and rotates queue
-        length = .1 * execute.mem.length()
+        execute = self.slicey.rotate()  # gives file that is rotating and rotates queue
+        length = .1 * execute.mem.length
         execute.mem.updateCountdown(length)  # how to make this specific to each
         execute.run()
 

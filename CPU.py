@@ -73,7 +73,7 @@ class CPU:
     def run(self) -> None:
         while self.countdown > 0:
             opcode = self.fetch()
-            print('ip before executing = ' + str(self.mem.ip))
+            #print('ip before executing = ' + str(self.mem.ip))
             #print('ip: ' + str(self.mem.ip) + ' / opcode = ' + str(hex(opcode)))
             self.decode(opcode)
             '''
@@ -90,6 +90,8 @@ class CPU:
             self.os.soup.total_instructions += 1
             if self.os.soup.total_instructions == 10000:
                 self.os.cosmic_ray()
+                #for i in range(len(self.RAM)):
+                    #print("index: "+ str(i) +" and opcode: " + str(hex(self.RAM[i])))
 
     def fetch(self) -> int:
         op = self.RAM[self.mem.ip]
@@ -114,7 +116,7 @@ class CPU:
     def movdi(self):
         if self.property.get(self.mem.ax + self.mem.cx) == self.name:
             self.RAM[self.mem.ax + self.mem.cx] = self.mem.bx
-        #self.movement()
+        self.movement()
 
     def movid(self):
         self.mem.ax = self.RAM[self.mem.bx + self.mem.cx]
@@ -128,15 +130,13 @@ class CPU:
         #BXCX = self.mem.bx + self.mem.cx
         #print(str(BXCX) + ' to ' + str(AXCX))
             self.RAM[self.mem.ax + self.mem.cx + 1] = self.RAM[self.mem.bx + self.mem.cx]
-        #self.movement()
+            self.movement()
 
-    '''
     def movement(self):
         self.mem.movement += 1
         if self.mem.movement == self.random:
             self.os.mutation(self.mem.ax + self.mem.cx)
             self.random = random.random * (2500 - 1000) + 1000
-            '''
 
     def pushax(self):
         self.mem.push(self.mem.ax)
@@ -342,7 +342,7 @@ class CPU:
         daughter.mem.start = self.mem.dx + self.mem.cx
         daughter.mem.length = self.mem.cx
         daughter.mem.end = daughter.mem.start + daughter.mem.length
-        daughter.mem.naming(self.RAM)
+        daughter.mem.naming(self.RAM, daughter.mem.length)
         print(daughter.mem.name)
         for i in range(daughter.mem.start, daughter.mem.end + 1):
             self.property[i] = daughter.mem.name

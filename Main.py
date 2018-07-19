@@ -14,8 +14,9 @@ for i in range(len(codes)):
     Global.RAM[i] = codes[i]
 ances_CPU.mem.length = len(codes)
 ances_CPU.mem.end = len(codes) - 1
-ances_CPU.mem.name = '82aaa'
-Global.names['82aaa'] = 1
+ances_CPU.mem.naming(Global.names)
+for i in range(len(codes)):
+    Global.property[i] = '82aaa'
 Global.accessory[ances_CPU.mem.name] = ances_CPU
 Global.cells_alive += 1
 OS.slicer_start(ances_CPU)

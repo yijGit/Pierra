@@ -88,10 +88,13 @@ class CPU:
             self.countdown -= 1
             self.mem.ip += 1
             self.os.soup.total_instructions += 1
-            if self.os.soup.total_instructions == 100000000:
+            if self.os.soup.total_instructions == 1000000:
                 self.os.cosmic_ray()
-                for i in range(int(.1 * len(self.RAM))):
+                for i in range(int(.05 * len(self.RAM))):
                     print("index: "+ str(i) +" and opcode: " + str(hex(self.RAM[i])))
+                print("Keys : " + str(self.os.soup.names.keys()))
+                print("number of cells alive: " + str(self.os.soup.cells_alive))
+                print("length of slicer queue: " + str(self.os.slicey.size()))
 
     def fetch(self) -> int:
         op = self.RAM[self.mem.ip]

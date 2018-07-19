@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ab35e65c-836d-41b1-9cff-e15cd1777f9b" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CPU.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPU.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OS.py" beforeDir="false" afterPath="$PROJECT_DIR$/OS.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -333,12 +331,18 @@
       <option name="project" value="LOCAL" />
       <updated>1531955452250</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Added errors to the jump methods">
+      <created>1531965117229</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1531965117230</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="948" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13333334" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -379,7 +383,8 @@
     <MESSAGE value="Testing" />
     <MESSAGE value="Completed the basics. Now onto the mutations." />
     <MESSAGE value="At this point idk" />
-    <option name="LAST_COMMIT_MESSAGE" value="At this point idk" />
+    <MESSAGE value="Added errors to the jump methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added errors to the jump methods" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

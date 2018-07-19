@@ -24,9 +24,13 @@ class Queue:
     def pop(self, num):
         return self.items.pop(num)
 
-    def swap(self, i):
-        bef = self.items.pop(i)
-        self.items.insert(i + 1, bef)
+    def swap(self, i, num):
+        if num is 1:
+            bef = self.items.pop(i + 1)
+            self.items.insert(i, bef)
+        elif num is 0:
+            bef = self.items.pop(i)
+            self.items.insert(i, bef)
 
     def index(self, element):
         return self.items.index(element)
@@ -57,14 +61,15 @@ class operating_system:
     def reapUpdate(self, file): # uses names
         self.reap.enqueue(file)
         self.soup.cells_alive += 1
-        if self.soup.cells_alive > (.8 * len(self.soup.RAM)):
+        if self.soup.cells_alive > (.05 * len(self.soup.RAM)):
+            print(self.slicey.size())
             death = self.reap.dequeue()
-            d_cpu = self.soup.accessory[death]
-            local = self.slicey.index(d_cpu)
+            local = self.slicey.index(death)
             corpse = self.slicey.pop(local)
-            begin = corpse.mem.start
-            end = corpse.mem.length + begin
-            corpse.countdown = 0
+            cor_cpu = self.soup.accessory[corpse]
+            print(self.slicey.size())
+            begin = cor_cpu.mem.start
+            end = cor_cpu.mem.length + begin
             for i in range(begin, end + 1):
                 self.soup.property[i] = None
             self.soup.cells_alive -= 1
@@ -74,17 +79,14 @@ class operating_system:
         error1 = self.soup.err_library.get(genotype)
         i = self.reap.index(genotype)
         gen2 = self.reap.pop(i + 1)
-        self.reap.insert(i + 1, gen2)
+        self.reap.insert(i + 2, gen2)
         error2 = self.soup.err_library.get(gen2)
         while error1 > error2: # insert while loop until no champion
-            self.reap.swap(i)
+            self.reap.swap(genotype, 0)
             i += 1
-            if i < self.reap.size() - 1:
-                gen2 = self.reap.pop(i + 1)
-                self.reap.insert(i + 1, gen2)
-                error2 = self.soup.err_library.get(gen2)
-            else:
-                break
+            gen2 = self.reap.pop(i + 1)
+            self.reap.insert(i + 2, gen2)
+            error2 = self.soup.err_library.get(gen2)
 
 
     def slicer_increase(self, mother, daughter):
@@ -92,21 +94,24 @@ class operating_system:
         # Each creature has is created a CPU
         # daughter is just ahead of mother
         # number of instructions executed must be proportional to the size of the genome
+
         i = self.slicey.index(mother)
         self.slicey.insert(i + 1, daughter)
 
     def slicer_start(self, ancestor):
         self.slicey.enqueue(ancestor)
-        length = int(.1 * ancestor.mem.length)
-        ancestor.updateCountdown(length)  # how to make this specific to each
+        anc_cpu = self.soup.accessory[ancestor]
+        length = int(.1 * anc_cpu.mem.length)
+        anc_cpu.updateCountdown(length)  # how to make this specific to each
         while not self.slicey.isEmpty():
             self.slicer_rotate()
 
     def slicer_rotate(self):
         execute = self.slicey.rotate()  # gives file that is rotating and rotates queue
-        length = int(.1 * execute.mem.length)
-        execute.updateCountdown(length)  # how to make this specific to each
-        execute.run()
+        exe_cpu = self.soup.accessory[execute]
+        length = int(.1 * exe_cpu.mem.length)
+        exe_cpu.updateCountdown(length)  # how to make this specific to each
+        exe_cpu.run()
 
     def cosmic_ray(self):
         ran = int(random.random() * len(self.soup.RAM))

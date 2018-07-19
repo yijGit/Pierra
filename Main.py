@@ -18,5 +18,5 @@ ances_CPU.mem.naming(Global.names)
 for i in range(len(codes)):
     Global.property[i] = '82aaa'
 Global.accessory[ances_CPU.mem.name] = ances_CPU
-Global.cells_alive += 1
+OS.reapUpdate(ances_CPU.mem.name)
 OS.slicer_start(ances_CPU)

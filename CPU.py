@@ -14,6 +14,8 @@ class CPU:
 
         self.os = os
 
+        self.flag = 0
+
         self.accessory = os.soup.accessory
 
         self.property = os.soup.property
@@ -76,21 +78,12 @@ class CPU:
             #print('ip before executing = ' + str(self.mem.ip))
             #print('ip: ' + str(self.mem.ip) + ' / opcode = ' + str(hex(opcode)))
             self.decode(opcode)
-            '''
-            print('     self.mem.ax = ' + str(self.mem.ax))
-            print('     self.mem.bx = ' + str(self.mem.bx))
-            print('     self.mem.cx = ' + str(self.mem.cx))
-            print('     self.mem.dx = ' + str(self.mem.dx))
-            
-            if not self.mem.isEmpty():
-                print('     top of stack = ' + str(self.mem.top()))
-                '''
             self.countdown -= 1
             self.mem.ip += 1
             self.os.soup.total_instructions += 1
-            if self.os.soup.total_instructions == 1000000:
+            if self.os.soup.total_instructions % 1000000 == 0:
                 self.os.cosmic_ray()
-                for i in range(int(.05 * len(self.RAM))):
+                for i in range(int(.8 * len(self.RAM))):
                     print("index: "+ str(i) +" and opcode: " + str(hex(self.RAM[i])))
                 print("Keys : " + str(self.os.soup.names.keys()))
                 print("number of cells alive: " + str(self.os.soup.cells_alive))
@@ -191,22 +184,10 @@ class CPU:
 
     # calculations
     def inc(self):
-        rand = random.random
-        if rand < .8:
-            self.mem.cx += 1
-        elif rand >= .8 and rand < .9:
-            self.mem.cx += 2
-        else:
-            pass
+        self.mem.cx += 1
 
     def dec(self):
-        rand = random.random
-        if rand < .8:
-            self.mem.cx -= 1
-        elif rand >= .8 and rand < .9:
-            self.mem.cx -= 2
-        else:
-            pass
+        self.mem.cx -= 1
 
     def add(self):
         self.mem.cx += self.mem.dx
@@ -361,10 +342,10 @@ class CPU:
         daughter.mem.naming(self.os.soup.names)
         for i in range(daughter.mem.start, daughter.mem.end + 1):
             self.property[i] = daughter.mem.name
-        self.os.reapUpdate(daughter.mem.name)
         self.os.soup.accessory[daughter.mem.name] = daughter
         self.mem.ip = daughter.mem.start
         self.os.slicer_increase(self, daughter)
+        self.os.reapUpdate(daughter.mem.name)
         self.countdown = 0
 
     def print(self):

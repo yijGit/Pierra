@@ -88,10 +88,13 @@ class CPU:
             self.countdown -= 1
             self.mem.ip += 1
             self.os.soup.total_instructions += 1
-            if self.os.soup.total_instructions == 10000:
+            if self.os.soup.total_instructions == 1000000:
                 self.os.cosmic_ray()
-                #for i in range(len(self.RAM)):
-                    #print("index: "+ str(i) +" and opcode: " + str(hex(self.RAM[i])))
+                for i in range(int(.05 * len(self.RAM))):
+                    print("index: "+ str(i) +" and opcode: " + str(hex(self.RAM[i])))
+                print("Keys : " + str(self.os.soup.names.keys()))
+                print("number of cells alive: " + str(self.os.soup.cells_alive))
+                print("length of slicer queue: " + str(self.os.slicey.size()))
 
     def fetch(self) -> int:
         op = self.RAM[self.mem.ip]
@@ -114,6 +117,7 @@ class CPU:
 
     # memory movement
     def movdi(self):
+
         if self.property.get(self.mem.ax + self.mem.cx) == self.name:
             self.RAM[self.mem.ax + self.mem.cx] = self.mem.bx
         self.movement()
@@ -187,10 +191,22 @@ class CPU:
 
     # calculations
     def inc(self):
-        self.mem.cx += 1
+        rand = random.random
+        if rand < .8:
+            self.mem.cx += 1
+        elif rand >= .8 and rand < .9:
+            self.mem.cx += 2
+        else:
+            pass
 
     def dec(self):
-        self.mem.cx -= 1
+        rand = random.random
+        if rand < .8:
+            self.mem.cx -= 1
+        elif rand >= .8 and rand < .9:
+            self.mem.cx -= 2
+        else:
+            pass
 
     def add(self):
         self.mem.cx += self.mem.dx
@@ -346,7 +362,6 @@ class CPU:
         daughter.mem.length = self.mem.cx
         daughter.mem.end = daughter.mem.start + daughter.mem.length
         daughter.mem.naming(self.os.soup.names)
-        print(daughter.mem.name)
         for i in range(daughter.mem.start, daughter.mem.end + 1):
             self.property[i] = daughter.mem.name
         self.os.reapUpdate(daughter.mem.name)

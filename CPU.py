@@ -26,7 +26,7 @@ class CPU:
 
         self.countdown = 0
 
-        self.name = self.mem.naming(os.soup.names)
+        self.name = ''
 
         # the complete list of instructions with the corresponding opcodes
         self.dispatch_map = {
@@ -342,7 +342,7 @@ class CPU:
         daughter.mem.start = self.mem.dx + self.mem.cx
         daughter.mem.length = self.mem.cx
         daughter.mem.end = daughter.mem.start + daughter.mem.length
-        daughter.mem.naming(self.RAM)
+        daughter.mem.naming(self.os.soup.names)
         print(daughter.mem.name)
         for i in range(daughter.mem.start, daughter.mem.end + 1):
             self.property[i] = daughter.mem.name

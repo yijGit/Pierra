@@ -61,6 +61,7 @@ class operating_system:
     def reapUpdate(self, file): # uses names
         self.reap.enqueue(file)
         self.soup.cells_alive += 1
+        local = None
         if self.soup.cells_alive > (.8 * len(self.soup.RAM)):
             death = self.reap.dequeue()
             for i in range(0, self. slicey.size()):
@@ -73,6 +74,7 @@ class operating_system:
             for i in range(begin, end + 1):
                 self.soup.property[i] = None
             self.soup.cells_alive -= 1
+            print('Hello')
 
 
     def reapError(self, genotype: str) -> None:

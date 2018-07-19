@@ -230,9 +230,11 @@ class CPU:
                 pointer = self.mem.ip
                 if self.RAM[pointer: pointer + len(template)] == complement:
                     self.mem.ip = pointer + len(template) - 1
-                    break
+                    return
                 self.mem.ip += 1
                 jump_limit -= 1
+            self.flag += 1
+            self.os.reapError(self.mem.name)
         else:
             self.mem.ip = self.mem.ax
 
@@ -245,9 +247,10 @@ class CPU:
                 pointer = self.mem.ip
                 if self.RAM[pointer - len(template): pointer] == complement:
                     self.mem.ip = pointer - 1
-                    break
+                    return
                 self.mem.ip -= 1
                 jump_limit -= 1
+            self.flag += 1
         else:
             self.mem.ip = self.mem.ax
 

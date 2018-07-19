@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ab35e65c-836d-41b1-9cff-e15cd1777f9b" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CPU.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPU.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OS.py" beforeDir="false" afterPath="$PROJECT_DIR$/OS.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,16 +28,16 @@
         <entry file="file://$PROJECT_DIR$/Memory.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="90">
-              <caret line="6" column="51" lean-forward="true" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
+              <caret line="6" column="51" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CPU.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CPU.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CPU.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="567">
-              <caret line="372" selection-start-line="372" selection-end-line="372" />
+            <state relative-caret-position="150">
+              <caret line="10" column="45" lean-forward="true" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
               <folding>
                 <element signature="e#54#74#0" expanded="true" />
               </folding>
@@ -46,8 +48,8 @@
       <file leaf-file-name="OS.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OS.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="406">
-              <caret line="104" column="32" lean-forward="true" selection-start-line="104" selection-start-column="32" selection-end-line="104" selection-end-column="32" />
+            <state relative-caret-position="511">
+              <caret line="76" column="25" selection-start-line="76" selection-start-column="25" selection-end-line="76" selection-end-column="25" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -55,10 +57,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LocMem.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LocMem.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LocMem.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="77">
+            <state relative-caret-position="915">
               <caret line="61" column="42" lean-forward="true" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
             </state>
           </provider>
@@ -68,7 +70,7 @@
         <entry file="file://$PROJECT_DIR$/Main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="315">
-              <caret line="21" column="36" lean-forward="true" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
+              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -310,23 +312,44 @@
       <option name="project" value="LOCAL" />
       <updated>1531955170162</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Completed the basics. Now onto the mutations.">
+      <created>1531955206941</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1531955206941</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Completed the basics. Now onto the mutations.">
+      <created>1531955298577</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1531955298577</updated>
+    </task>
+    <task id="LOCAL-00016" summary="At this point idk">
+      <created>1531955452250</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1531955452250</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="948" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13333334" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13333334" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="11" sideWeight="0.5011905" side_tool="true" visible="true" weight="0.6693364" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49880952" weight="0.4645309" />
-      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.49880952" weight="0.32951945" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50238097" side_tool="true" weight="0.3272311" />
+      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.49761903" weight="0.3272311" />
       <window_info anchor="bottom" id="Python Console" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49880952" weight="0.98855835" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="9" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -355,7 +378,8 @@
     <MESSAGE value="Idk" />
     <MESSAGE value="Testing" />
     <MESSAGE value="Completed the basics. Now onto the mutations." />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed the basics. Now onto the mutations." />
+    <MESSAGE value="At this point idk" />
+    <option name="LAST_COMMIT_MESSAGE" value="At this point idk" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -446,9 +470,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -456,9 +477,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
-          <folding>
-            <element signature="e#54#74#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -469,17 +487,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/LocMem.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="915">
+          <caret line="61" column="42" lean-forward="true" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Memory.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
-          <caret line="6" column="51" lean-forward="true" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
+          <caret line="6" column="51" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/OS.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="104" column="32" lean-forward="true" selection-start-line="104" selection-start-column="32" selection-end-line="104" selection-end-column="32" />
+        <state relative-caret-position="511">
+          <caret line="76" column="25" selection-start-line="76" selection-start-column="25" selection-end-line="76" selection-end-column="25" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
@@ -488,28 +523,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CPU.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
-          <caret line="372" selection-start-line="372" selection-end-line="372" />
+        <state relative-caret-position="150">
+          <caret line="10" column="45" lean-forward="true" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
           <folding>
             <element signature="e#54#74#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="36" lean-forward="true" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LocMem.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
-          <caret line="61" column="42" lean-forward="true" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
         </state>
       </provider>
     </entry>

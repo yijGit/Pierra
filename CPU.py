@@ -88,10 +88,10 @@ class CPU:
             self.countdown -= 1
             self.mem.ip += 1
             self.os.soup.total_instructions += 1
-            if self.os.soup.total_instructions == 10000:
+            if self.os.soup.total_instructions == 100000000:
                 self.os.cosmic_ray()
-                #for i in range(len(self.RAM)):
-                    #print("index: "+ str(i) +" and opcode: " + str(hex(self.RAM[i])))
+                for i in range(int(.1 * len(self.RAM))):
+                    print("index: "+ str(i) +" and opcode: " + str(hex(self.RAM[i])))
 
     def fetch(self) -> int:
         op = self.RAM[self.mem.ip]
@@ -343,7 +343,6 @@ class CPU:
         daughter.mem.length = self.mem.cx
         daughter.mem.end = daughter.mem.start + daughter.mem.length
         daughter.mem.naming(self.os.soup.names)
-        print(daughter.mem.name)
         for i in range(daughter.mem.start, daughter.mem.end + 1):
             self.property[i] = daughter.mem.name
         self.os.reapUpdate(daughter.mem.name)

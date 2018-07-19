@@ -15,7 +15,7 @@ for i in range(len(codes)):
 ances_CPU.mem.length = len(codes)
 ances_CPU.mem.end = len(codes) - 1
 ances_CPU.mem.name = '82aaa'
-print(ances_CPU.mem.name)
+Global.names['82aaa'] = 1
 Global.accessory[ances_CPU.mem.name] = ances_CPU
 Global.cells_alive += 1
 OS.slicer_start(ances_CPU)

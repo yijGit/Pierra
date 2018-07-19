@@ -117,6 +117,7 @@ class CPU:
 
     # memory movement
     def movdi(self):
+
         if self.property.get(self.mem.ax + self.mem.cx) == self.name:
             self.RAM[self.mem.ax + self.mem.cx] = self.mem.bx
         self.movement()
@@ -190,10 +191,22 @@ class CPU:
 
     # calculations
     def inc(self):
-        self.mem.cx += 1
+        rand = random.random
+        if rand < .8:
+            self.mem.cx += 1
+        elif rand >= .8 and rand < .9:
+            self.mem.cx += 2
+        else:
+            pass
 
     def dec(self):
-        self.mem.cx -= 1
+        rand = random.random
+        if rand < .8:
+            self.mem.cx -= 1
+        elif rand >= .8 and rand < .9:
+            self.mem.cx -= 2
+        else:
+            pass
 
     def add(self):
         self.mem.cx += self.mem.dx

@@ -1,11 +1,12 @@
 class G_Memory:
     def __init__(self):
-        self.RAM = bytearray(60000) # soup
+        self.RAM = bytearray(1000000) # soup
         self.bounds = range(len(self.RAM))
         self.property = {}  # index : genotype str
         self.accessory = {}  # genotype : Organism
         self.names = {} # length(str): num of names
         self.cells_alive = 0
+        self.total_length = 0
         self.size = 60000
         self.total_instructions = 0
         self.err_library = {} # genotype: index
@@ -28,3 +29,6 @@ class G_Memory:
     def fill(self, value):
         for i in range(len(self.RAM)):
             self.RAM[i] = value
+
+    def add_length(self, size):
+        self.total_length += size

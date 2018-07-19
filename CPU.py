@@ -3,7 +3,6 @@ A sample CPU class for use in every organism
 """
 
 from LocMem import *
-from Memory import G_Memory
 from OS import operating_system
 import random
 
@@ -88,10 +87,12 @@ class CPU:
             self.countdown -= 1
             self.mem.ip += 1
             self.os.soup.total_instructions += 1
-            if self.os.soup.total_instructions == 1000000:
-                self.os.cosmic_ray()
-                for i in range(int(.05 * len(self.RAM))):
+            if self.os.soup.total_instructions % 100000 == 0:
+                # self.os.cosmic_ray()
+                '''
+                for i in range(int(len(self.RAM))):
                     print("index: "+ str(i) +" and opcode: " + str(hex(self.RAM[i])))
+                '''
                 print("Keys : " + str(self.os.soup.names.keys()))
                 print("number of cells alive: " + str(self.os.soup.cells_alive))
                 print("length of slicer queue: " + str(self.os.slicey.size()))
@@ -117,30 +118,30 @@ class CPU:
 
     # memory movement
     def movdi(self):
-
-        if self.property.get(self.mem.ax + self.mem.cx) == self.name:
-            self.RAM[self.mem.ax + self.mem.cx] = self.mem.bx
-        self.movement()
+        #if self.property.get(self.mem.ax + self.mem.cx) == self.name:
+        self.RAM[self.mem.ax + self.mem.cx] = self.mem.bx
+        #self.movement()
 
     def movid(self):
         self.mem.ax = self.RAM[self.mem.bx + self.mem.cx]
 
     def movii(self):
-        if self.property.get(self.mem.ax + self.mem.cx) == self.name:
+        #if self.property.get(self.mem.ax + self.mem.cx) == self.name:
         #print('AX = ' + str(self.mem.ax))
         #print('BX = ' + str(self.mem.bx))
         #print('CX = ' + str(self.mem.cx))
         #AXCX = self.mem.ax + self.mem.cx
         #BXCX = self.mem.bx + self.mem.cx
         #print(str(BXCX) + ' to ' + str(AXCX))
-            self.RAM[self.mem.ax + self.mem.cx + 1] = self.RAM[self.mem.bx + self.mem.cx]
-            self.movement()
-
+        self.RAM[self.mem.ax + self.mem.cx + 1] = self.RAM[self.mem.bx + self.mem.cx]
+            #self.movement()
+    '''
     def movement(self):
         self.mem.movement += 1
         if self.mem.movement == self.random:
             self.os.mutation(self.mem.ax + self.mem.cx)
             self.random = random.random * (2500 - 1000) + 1000
+    '''
 
     def pushax(self):
         self.mem.push(self.mem.ax)
@@ -191,22 +192,10 @@ class CPU:
 
     # calculations
     def inc(self):
-        rand = random.random
-        if rand < .8:
-            self.mem.cx += 1
-        elif rand >= .8 and rand < .9:
-            self.mem.cx += 2
-        else:
-            pass
+        self.mem.cx += 1
 
     def dec(self):
-        rand = random.random
-        if rand < .8:
-            self.mem.cx -= 1
-        elif rand >= .8 and rand < .9:
-            self.mem.cx -= 2
-        else:
-            pass
+        self.mem.cx -= 1
 
     def add(self):
         self.mem.cx += self.mem.dx
@@ -267,6 +256,8 @@ class CPU:
                 self.mem.ip -= 1
                 jump_limit -= 1
             self.flag += 1
+            self.os.reapError(self.mem.name)
+
         else:
             self.mem.ip = self.mem.ax
 
@@ -347,9 +338,14 @@ class CPU:
 
     def mal(self):
         size = self.mem.cx
+        self.os.soup.add_length(size)
+        daughter_start = self.os.find(size)
+        self.mem.ax = daughter_start
+
+        """
+        size = self.mem.cx
         d_start = self.mem.ax
-        for i in range(0, size):
-            self.property[d_start + i] = self.name
+        """
 
     def divide(self):
         daughter = CPU(self.os)
@@ -368,6 +364,7 @@ class CPU:
         self.os.soup.accessory[daughter.mem.name] = daughter
         self.mem.ip = daughter.mem.start
         self.os.slicer_increase(self, daughter)
+        #print(self.mem.name + ": START " + str(self.mem.start) + " END " +str(self.mem.end))
         self.countdown = 0
 
     def print(self):

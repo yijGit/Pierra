@@ -61,12 +61,13 @@ class operating_system:
     def reapUpdate(self, file): # uses names
         self.reap.enqueue(file)
         self.soup.cells_alive += 1
-        local = None
+        local = 0
         if self.soup.cells_alive > (.8 * len(self.soup.RAM)):
             death = self.reap.dequeue()
             for i in range(0, self. slicey.size()):
                 if self.slicey.elementAt(i).name == death:
                     local = i
+                    print("BYE")
                     break
             corpse = self.slicey.pop(local)
             begin = corpse.mem.start
@@ -74,7 +75,7 @@ class operating_system:
             for i in range(begin, end + 1):
                 self.soup.property[i] = None
             self.soup.cells_alive -= 1
-            print('Hello')
+            #print('Hello')
 
 
     def reapError(self, genotype: str) -> None:
@@ -112,9 +113,22 @@ class operating_system:
         execute.updateCountdown(length)  # how to make this specific to each
         execute.run()
 
+
     def cosmic_ray(self):
         ran = int(random.random() * len(self.soup.RAM))
         self.soup.RAM[ran] ^= 1
 
     def mutation(self, num):
         self.soup.RAM[num] ^= 1
+
+    def find(self, size_genome):
+        start = self.soup.total_length
+        condition = False
+        while not condition:
+            for i in range(size_genome):
+                if self.soup.property.get(start + i, 0) != 0:
+                    start += i + 1
+                    condition = False
+                    break
+            condition = True
+        return start

@@ -117,6 +117,7 @@ class operating_system:
         self.soup.RAM[num] ^= 1
 
     def find(self, size_genome):
+        '''
         start = self.soup.total_length
         condition = False
         while not condition:
@@ -127,3 +128,17 @@ class operating_system:
                     break
             condition = True
         return start
+        '''
+        condition = False
+        start = 0
+        while not condition:
+            portion = self.soup.property[start: len(self.soup.property)]
+            search = portion.index(None) + start
+            for i in range(search, size_genome + search):
+                if self.soup.property[i] is not None:
+                    start = i
+                    condition = False
+                    break
+                else:
+                    condition = True
+        return search

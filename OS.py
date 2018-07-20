@@ -24,13 +24,9 @@ class Queue:
     def pop(self, num):
         return self.items.pop(num)
 
-    def swap(self, i, num):
-        if num is 1:
-            bef = self.items.pop(i + 1)
-            self.items.insert(i, bef)
-        elif num is 0:
-            bef = self.items.pop(i)
-            self.items.insert(i, bef)
+    def swap(self, i):
+        bef = self.items.pop(i)
+        self.items.insert(i + 1, bef)
 
     def index(self, element):
         return self.items.index(element)
@@ -61,35 +57,34 @@ class operating_system:
     def reapUpdate(self, file): # uses names
         self.reap.enqueue(file)
         self.soup.cells_alive += 1
-        local = 0
         if self.soup.cells_alive > (.8 * len(self.soup.RAM)):
             death = self.reap.dequeue()
-            for i in range(0, self. slicey.size()):
-                if self.slicey.elementAt(i).name == death:
-                    local = i
-                    print("BYE")
-                    break
+            d_cpu = self.soup.accessory[death]
+            local = self.slicey.index(d_cpu)
             corpse = self.slicey.pop(local)
             begin = corpse.mem.start
             end = corpse.mem.length + begin
+            corpse.countdown = 0
             for i in range(begin, end + 1):
                 self.soup.property[i] = None
             self.soup.cells_alive -= 1
-            #print('Hello')
 
 
     def reapError(self, genotype: str) -> None:
         error1 = self.soup.err_library.get(genotype)
         i = self.reap.index(genotype)
         gen2 = self.reap.pop(i + 1)
-        self.reap.insert(i + 2, gen2)
+        self.reap.insert(i + 1, gen2)
         error2 = self.soup.err_library.get(gen2)
-        while error1 > error2: # insert while loop until no champion
-            self.reap.swap(genotype, 0)
+        while error1 > error2:  # insert while loop until no champion
+            self.reap.swap(i)
             i += 1
-            gen2 = self.reap.pop(i + 1)
-            self.reap.insert(i + 2, gen2)
-            error2 = self.soup.err_library.get(gen2)
+            if i < self.reap.size() - 1:
+                gen2 = self.reap.pop(i + 1)
+                self.reap.insert(i + 1, gen2)
+                error2 = self.soup.err_library.get(gen2)
+            else:
+                break
 
 
     def slicer_increase(self, mother, daughter):
@@ -126,7 +121,7 @@ class operating_system:
         condition = False
         while not condition:
             for i in range(size_genome):
-                if self.soup.property.get(start + i, 0) != 0:
+                if self.soup.property[start + i, 0] != 0:
                     start += i + 1
                     condition = False
                     break

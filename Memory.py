@@ -1,8 +1,8 @@
 class G_Memory:
     def __init__(self):
-        self.RAM = bytearray(1000000) # soup
+        self.RAM = bytearray(60000) # soup
         self.bounds = range(len(self.RAM))
-        self.property = {}  # index : genotype str
+        self.property = [None] * len(self.RAM)  # index : genotype str
         self.accessory = {}  # genotype : Organism
         self.names = {} # length(str): num of names
         self.cells_alive = 0
